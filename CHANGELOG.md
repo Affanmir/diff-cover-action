@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.1.0] - 2026-04-07
+## [1.1.0] - 2026-04-08
 
 ### Added
 - Issue templates (bug report and feature request)
@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CODEOWNERS file
 
 ### Fixed
+- Hyphenated action inputs (e.g., `coverage-files`, `compare-branch`) not being read due to env var name mismatch
+- Docker Build CI job failing because verify step appended args to ENTRYPOINT instead of overriding it
+- Git `safe.directory` error when Docker actions mount the runner workspace
+- GHCR image push failing due to uppercase characters in repository name
 - Ruff lint violations (import sorting, list concatenation, ambiguous variable names, line length)
 - Ruff formatting across 9 source and test files
 - Mypy type annotation error in fork PR detection
