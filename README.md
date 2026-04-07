@@ -16,6 +16,109 @@ A GitHub Action that wraps [diff-cover](https://github.com/Bachmann1234/diff_cov
 - **Shallow clone handling** -- automatically fetches enough history for diff-cover
 - **Full CLI parity** -- every diff-cover/diff-quality flag is exposed as an input
 
+---
+
+## What You Get
+
+### PR Comment (auto-posted, updates on re-run)
+
+> ## :white_check_mark: Diff Coverage: 82.0%
+>
+> > :heavy_check_mark: Meets threshold of 80%
+>
+> | Metric | Value |
+> |--------|------:|
+> | **Coverage on diff lines** | **82.0%** |
+> | Lines changed | 50 |
+> | Lines uncovered | 9 |
+> | Files changed | 3 |
+>
+> <details>
+> <summary>File breakdown (3 files)</summary>
+>
+> | File | Coverage | Uncovered Lines |
+> |------|:--------:|:---------------:|
+> | `src/bar.py` | 60.0% | 5, 6, 7, 8, 15, 22 |
+> | `src/foo.py` | 85.0% | 13, 27, 42 |
+> | `src/baz.py` | 100.0% | |
+>
+> </details>
+>
+> ---
+> <sub>Posted by <a href="https://github.com/Affanmir/diff-cover-action">diff-cover-action</a></sub>
+
+### PR Comment -- Below Threshold
+
+> ## :red_circle: Diff Coverage: 45.0%
+>
+> > :x: Below threshold of 80% -- needs 35.0% more coverage
+>
+> | Metric | Value |
+> |--------|------:|
+> | **Coverage on diff lines** | **45.0%** |
+> | Lines changed | 120 |
+> | Lines uncovered | 66 |
+> | Files changed | 8 |
+>
+> <details>
+> <summary>File breakdown (8 files)</summary>
+>
+> | File | Coverage | Uncovered Lines |
+> |------|:--------:|:---------------:|
+> | `src/payments/stripe.py` | 0.0% | 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 (+12 more) |
+> | `src/auth/login.py` | 25.0% | 15, 16, 17, 30, 31, 32 |
+> | `src/api/routes.py` | 40.0% | 22, 23, 55, 56, 57 |
+> | `src/models/user.py` | 50.0% | 8, 9, 44 |
+> | `src/utils/cache.py` | 60.0% | 18, 19 |
+> | `src/services/email.py` | 70.0% | 33 |
+> | `src/config.py` | 80.0% | 5 |
+> | `src/middleware.py` | 100.0% | |
+>
+> </details>
+>
+> ---
+> <sub>Posted by <a href="https://github.com/Affanmir/diff-cover-action">diff-cover-action</a></sub>
+
+### Diff Quality PR Comment
+
+> ## :large_orange_diamond: Diff Quality: 75.0%
+>
+> > :x: Below threshold of 90%
+>
+> | Metric | Value |
+> |--------|------:|
+> | **Quality on diff lines** | **75.0%** |
+> | Lines changed | 20 |
+> | Lines with violations | 4 |
+> | Files changed | 1 |
+>
+> <details>
+> <summary>File breakdown (1 file)</summary>
+>
+> | File | Quality | Violation Lines |
+> |------|:-------:|:---------------:|
+> | `src/module.py` | 75.0% | 10, 11, 12, 30 |
+>
+> </details>
+>
+> ---
+> <sub>Posted by <a href="https://github.com/Affanmir/diff-cover-action">diff-cover-action</a></sub>
+
+### Inline Annotations (appear directly on the PR diff)
+
+```
+warning: src/bar.py#5-8 — Lines 5-8 are not covered by tests
+warning: src/bar.py#15 — Line 15 is not covered by tests
+warning: src/bar.py#22 — Line 22 is not covered by tests
+warning: src/foo.py#13 — Line 13 is not covered by tests
+```
+
+### Step Summary (in Actions run UI)
+
+The same coverage table also appears in the **Actions > Job Summary** tab so you can see results without opening the PR.
+
+---
+
 ## Quick Start
 
 ### Coverage Mode
@@ -40,7 +143,7 @@ jobs:
           pytest --cov --cov-report=xml
 
       - name: Diff Coverage
-        uses: your-org/diff-cover-action@v1
+        uses: Affanmir/diff-cover-action@v1
         with:
           coverage-files: coverage.xml
           fail-under: '80'
@@ -50,7 +153,7 @@ jobs:
 
 ```yaml
       - name: Diff Quality
-        uses: your-org/diff-cover-action@v1
+        uses: Affanmir/diff-cover-action@v1
         with:
           mode: quality
           violations: ruff.check
@@ -61,13 +164,13 @@ jobs:
 
 ```yaml
       - name: Diff Coverage
-        uses: your-org/diff-cover-action@v1
+        uses: Affanmir/diff-cover-action@v1
         with:
           coverage-files: coverage.xml
           fail-under: '80'
 
       - name: Diff Quality
-        uses: your-org/diff-cover-action@v1
+        uses: Affanmir/diff-cover-action@v1
         with:
           mode: quality
           violations: flake8
@@ -166,7 +269,7 @@ jobs:
 ```yaml
       - name: Diff Coverage
         id: coverage
-        uses: your-org/diff-cover-action@v1
+        uses: Affanmir/diff-cover-action@v1
         with:
           coverage-files: coverage.xml
 
@@ -216,7 +319,7 @@ Enable badge generation and use with shields.io:
 
 ```yaml
       - name: Diff Coverage
-        uses: your-org/diff-cover-action@v1
+        uses: Affanmir/diff-cover-action@v1
         with:
           coverage-files: coverage.xml
           create-badge: 'true'
@@ -235,7 +338,7 @@ Then use with a [shields.io endpoint badge](https://shields.io/badges/endpoint-b
 ### Multiple Coverage Files
 
 ```yaml
-      - uses: your-org/diff-cover-action@v1
+      - uses: Affanmir/diff-cover-action@v1
         with:
           coverage-files: 'unit-coverage.xml integration-coverage.xml'
 ```
@@ -243,7 +346,7 @@ Then use with a [shields.io endpoint badge](https://shields.io/badges/endpoint-b
 ### Glob Patterns
 
 ```yaml
-      - uses: your-org/diff-cover-action@v1
+      - uses: Affanmir/diff-cover-action@v1
         with:
           coverage-files: '**/coverage*.xml'
 ```
@@ -251,7 +354,7 @@ Then use with a [shields.io endpoint badge](https://shields.io/badges/endpoint-b
 ### Exclude Patterns
 
 ```yaml
-      - uses: your-org/diff-cover-action@v1
+      - uses: Affanmir/diff-cover-action@v1
         with:
           coverage-files: coverage.xml
           exclude: |
@@ -263,7 +366,7 @@ Then use with a [shields.io endpoint badge](https://shields.io/badges/endpoint-b
 ### JaCoCo (Java)
 
 ```yaml
-      - uses: your-org/diff-cover-action@v1
+      - uses: Affanmir/diff-cover-action@v1
         with:
           coverage-files: target/site/jacoco/jacoco.xml
           src-roots: 'src/main/java'
@@ -272,7 +375,7 @@ Then use with a [shields.io endpoint badge](https://shields.io/badges/endpoint-b
 ### TOML Configuration
 
 ```yaml
-      - uses: your-org/diff-cover-action@v1
+      - uses: Affanmir/diff-cover-action@v1
         with:
           coverage-files: coverage.xml
           config-file: pyproject.toml
@@ -294,7 +397,7 @@ Report coverage without failing the step:
 ```yaml
       - name: Coverage Report
         id: coverage
-        uses: your-org/diff-cover-action@v1
+        uses: Affanmir/diff-cover-action@v1
         with:
           coverage-files: coverage.xml
           fail-under: '80'
