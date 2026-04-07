@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-04-07
+
+### Added
+- Issue templates (bug report and feature request)
+- Pull request template with checklist
+- CODEOWNERS file
+
+### Fixed
+- Ruff lint violations (import sorting, list concatenation, ambiguous variable names, line length)
+- Ruff formatting across 9 source and test files
+- Mypy type annotation error in fork PR detection
+
+## [1.0.0] - 2026-04-07
+
 ### Added
 - Initial release of diff-cover-action
 - Coverage mode: run diff-cover on PR changes with full CLI parity
