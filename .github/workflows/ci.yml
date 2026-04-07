@@ -65,4 +65,4 @@ jobs:
         run: docker build -t diff-cover-action:test .
 
       - name: Verify entrypoint exists
-        run: docker run --rm diff-cover-action:test python -c "import src; print('OK')"
+        run: docker run --rm --entrypoint python diff-cover-action:test -c "import src; print('OK')"
