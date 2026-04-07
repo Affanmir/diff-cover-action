@@ -48,7 +48,7 @@ def get_github_context() -> dict[str, str]:
 
 def main() -> int:
     mode = get_input("mode", "coverage")
-    token = get_input("github-token", "")
+    token = get_input("github-token", "") or os.environ.get("GITHUB_TOKEN", "")
     compare_branch = get_input("compare-branch", "origin/main")
     fail_under = float(get_input("fail-under", "0"))
     fail_on_threshold = get_bool_input("fail-on-threshold", default=True)

@@ -102,9 +102,9 @@ inputs:
 
   # GitHub integration
   github-token:
-    description: 'GitHub token for PR comments and check annotations.'
+    description: 'GitHub token for PR comments and check annotations. Defaults to the built-in GITHUB_TOKEN.'
     required: false
-    default: ${{ github.token }}
+    default: ''
   post-comment:
     description: 'Post or update a PR comment with results.'
     required: false
