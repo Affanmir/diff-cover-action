@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import glob as globmod
 
-
 JSON_REPORT_PATH = "/tmp/dc-report.json"
 MD_REPORT_PATH = "/tmp/dc-report.md"
 HTML_REPORT_PATH = "/tmp/dc-report.html"
@@ -207,7 +206,7 @@ def _build_coverage_command(
     )
 
     if src_roots:
-        cmd.extend(["--src-roots"] + src_roots.split())
+        cmd.extend(["--src-roots", *src_roots.split()])
 
     if expand_coverage_report:
         cmd.append("--expand-coverage-report")

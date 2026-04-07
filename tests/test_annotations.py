@@ -39,11 +39,13 @@ class TestCreateAnnotations:
         report = Report(
             report_name="XML",
             diff_name="",
-            files=[FileReport(
-                path="big.py",
-                percent_covered=0.0,
-                violation_lines=violation_lines,
-            )],
+            files=[
+                FileReport(
+                    path="big.py",
+                    percent_covered=0.0,
+                    violation_lines=violation_lines,
+                )
+            ],
             total_num_lines=100,
             total_num_violations=len(violation_lines),
             total_percent_covered=1.0,
@@ -51,7 +53,9 @@ class TestCreateAnnotations:
         create_annotations(report=report, mode="coverage", limit=3)
         captured = capsys.readouterr()  # type: ignore[attr-defined]
         # Should have exactly 3 annotation lines plus the summary line
-        annotation_lines = [l for l in captured.out.splitlines() if l.startswith("::warning")]
+        annotation_lines = [
+            line for line in captured.out.splitlines() if line.startswith("::warning")
+        ]
         assert len(annotation_lines) == 3
 
     def test_empty_report_no_annotations(self, empty_report: Report, capsys: object) -> None:
@@ -88,7 +92,7 @@ class TestCreateAnnotations:
         )
         create_annotations(report=report, mode="coverage", limit=2)
         captured = capsys.readouterr()  # type: ignore[attr-defined]
-        lines = [l for l in captured.out.splitlines() if l.startswith("::warning")]
+        lines = [line for line in captured.out.splitlines() if line.startswith("::warning")]
         # bad.py should come first (lower coverage)
         assert "bad.py" in lines[0]
 
@@ -106,7 +110,9 @@ class TestCreateAnnotations:
         create_annotations(report=report, mode="coverage")
         captured = capsys.readouterr()  # type: ignore[attr-defined]
         # Lines 1-3 grouped, line 10 separate = 2 annotations
-        annotation_lines = [l for l in captured.out.splitlines() if l.startswith("::warning")]
+        annotation_lines = [
+            line for line in captured.out.splitlines() if line.startswith("::warning")
+        ]
         assert len(annotation_lines) == 2
         assert "line=1,endLine=3" in annotation_lines[0]
         assert "line=10" in annotation_lines[1]

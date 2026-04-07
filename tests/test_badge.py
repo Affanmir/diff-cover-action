@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from src.badge import generate_badge, _color_for_percent
+from src.badge import _color_for_percent, generate_badge
 
 
 class TestColorForPercent:

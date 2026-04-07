@@ -57,11 +57,13 @@ def parse_report(json_path: str) -> Report:
     files: list[FileReport] = []
 
     for filepath, stats in src_stats.items():
-        files.append(FileReport(
-            path=filepath,
-            percent_covered=stats.get("percent_covered", 0.0),
-            violation_lines=stats.get("violation_lines", []),
-        ))
+        files.append(
+            FileReport(
+                path=filepath,
+                percent_covered=stats.get("percent_covered", 0.0),
+                violation_lines=stats.get("violation_lines", []),
+            )
+        )
 
     return Report(
         report_name=data.get("report_name", ""),

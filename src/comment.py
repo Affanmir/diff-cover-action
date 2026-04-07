@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import json
 from pathlib import Path
 
@@ -10,12 +11,12 @@ from jinja2 import Environment, FileSystemLoader
 
 from src.report_parser import Report
 
-
 TEMPLATES_DIR = Path(__file__).resolve().parent.parent / "templates"
 
 
-def _get_pr_number(event_name: str, event_path: str, token: str, api_url: str,
-                   repository: str, sha: str) -> int | None:
+def _get_pr_number(
+    event_name: str, event_path: str, token: str, api_url: str, repository: str, sha: str
+) -> int | None:
     """Resolve the PR number from the event context.
 
     For pull_request events: read directly from the event payload.
@@ -51,7 +52,7 @@ def _is_fork_pr(event_path: str, repository: str) -> bool:
         with open(event_path) as f:
             event_data = json.load(f)
         head_repo = event_data.get("pull_request", {}).get("head", {}).get("repo", {})
-        head_full_name = head_repo.get("full_name", "")
+        head_full_name: str = head_repo.get("full_name", "")
         return head_full_name != "" and head_full_name != repository
     except (FileNotFoundError, KeyError):
         return False
@@ -76,8 +77,9 @@ def _find_existing_comment(
 
     per_page = 100
     while True:
-        resp = requests.get(url, headers=headers, params={"page": page, "per_page": per_page},
-                            timeout=30)
+        resp = requests.get(
+            url, headers=headers, params={"page": page, "per_page": per_page}, timeout=30
+        )
         if resp.status_code != 200:
             break
 
@@ -165,10 +167,8 @@ def post_or_update_comment(
 
     # Read the markdown report if available
     md_report_content = ""
-    try:
+    with contextlib.suppress(FileNotFoundError):
         md_report_content = Path(md_report_path).read_text()
-    except FileNotFoundError:
-        pass
 
     body = _render_comment_body(
         report=report,

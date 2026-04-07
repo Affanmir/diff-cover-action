@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from src.cli_builder import build_command, JSON_REPORT_PATH, MD_REPORT_PATH, HTML_REPORT_PATH
+from src.cli_builder import HTML_REPORT_PATH, JSON_REPORT_PATH, MD_REPORT_PATH, build_command
 
 
 def _default_kwargs(**overrides: object) -> dict[str, object]:
@@ -70,15 +70,17 @@ class TestCoverageMode:
         assert cmd[idx + 1] == "/tmp/my.diff"
 
     def test_boolean_flags(self) -> None:
-        cmd = build_command(**_default_kwargs(
-            ignore_staged=True,
-            ignore_unstaged=True,
-            include_untracked=True,
-            ignore_whitespace=True,
-            expand_coverage_report=True,
-            show_uncovered=True,
-            quiet=True,
-        ))
+        cmd = build_command(
+            **_default_kwargs(
+                ignore_staged=True,
+                ignore_unstaged=True,
+                include_untracked=True,
+                ignore_whitespace=True,
+                expand_coverage_report=True,
+                show_uncovered=True,
+                quiet=True,
+            )
+        )
         assert "--ignore-staged" in cmd
         assert "--ignore-unstaged" in cmd
         assert "--include-untracked" in cmd
@@ -148,20 +150,24 @@ class TestQualityMode:
         assert "--violations=flake8" in cmd
 
     def test_quality_with_input_reports(self) -> None:
-        cmd = build_command(**_default_kwargs(
-            mode="quality",
-            violations="pylint",
-            quality_input_reports="report1.txt report2.txt",
-        ))
+        cmd = build_command(
+            **_default_kwargs(
+                mode="quality",
+                violations="pylint",
+                quality_input_reports="report1.txt report2.txt",
+            )
+        )
         assert "report1.txt" in cmd
         assert "report2.txt" in cmd
 
     def test_quality_options_passthrough(self) -> None:
-        cmd = build_command(**_default_kwargs(
-            mode="quality",
-            violations="ruff.check",
-            quality_options="--select E501",
-        ))
+        cmd = build_command(
+            **_default_kwargs(
+                mode="quality",
+                violations="ruff.check",
+                quality_options="--select E501",
+            )
+        )
         idx = cmd.index("--options")
         assert cmd[idx + 1] == "--select E501"
 
@@ -170,13 +176,15 @@ class TestQualityMode:
             build_command(**_default_kwargs(mode="quality", violations=""))
 
     def test_quality_shared_flags(self) -> None:
-        cmd = build_command(**_default_kwargs(
-            mode="quality",
-            violations="eslint",
-            compare_branch="origin/develop",
-            ignore_staged=True,
-            fail_under=90.0,
-        ))
+        cmd = build_command(
+            **_default_kwargs(
+                mode="quality",
+                violations="eslint",
+                compare_branch="origin/develop",
+                ignore_staged=True,
+                fail_under=90.0,
+            )
+        )
         assert "--compare-branch" in cmd
         assert "--ignore-staged" in cmd
         assert "--fail-under" in cmd

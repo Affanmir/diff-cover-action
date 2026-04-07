@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from unittest.mock import patch, MagicMock
 import subprocess
+from unittest.mock import MagicMock, patch
 
-from src.git_setup import ensure_git_history, _is_shallow, _has_merge_base
+from src.git_setup import _has_merge_base, _is_shallow, ensure_git_history
 
 
 class TestIsShallow:
@@ -77,8 +77,5 @@ class TestEnsureGitHistory:
         ensure_git_history("origin/main")
 
         # Should have deepened twice (100 and 500)
-        deepen_calls = [
-            c for c in mock_run.call_args_list
-            if "--deepen" in c[0][0]
-        ]
+        deepen_calls = [c for c in mock_run.call_args_list if "--deepen" in c[0][0]]
         assert len(deepen_calls) == 2

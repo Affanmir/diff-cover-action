@@ -12,7 +12,7 @@ import subprocess
 
 def _run_git(args: list[str], check: bool = False) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
-        ["git"] + args,
+        ["git", *args],
         capture_output=True,
         text=True,
         check=check,
@@ -38,9 +38,7 @@ def _fetch_compare_branch(compare_branch: str) -> None:
         remote = "origin"
         branch = compare_branch
 
-    result = _run_git([
-        "fetch", remote, f"{branch}:refs/remotes/{remote}/{branch}", "--depth=1"
-    ])
+    result = _run_git(["fetch", remote, f"{branch}:refs/remotes/{remote}/{branch}", "--depth=1"])
     if result.returncode != 0:
         # Try fetching without depth restriction
         _run_git(["fetch", remote, f"{branch}:refs/remotes/{remote}/{branch}"])

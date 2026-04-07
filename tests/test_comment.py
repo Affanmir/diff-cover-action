@@ -141,8 +141,12 @@ def test_post_new_comment(tmp_path: Path) -> None:
     )
 
     report = Report(
-        report_name="XML", diff_name="", files=[], total_num_lines=0,
-        total_num_violations=0, total_percent_covered=100.0,
+        report_name="XML",
+        diff_name="",
+        files=[],
+        total_num_lines=0,
+        total_num_violations=0,
+        total_percent_covered=100.0,
     )
 
     result = post_or_update_comment(
@@ -183,8 +187,12 @@ def test_update_existing_comment(tmp_path: Path) -> None:
     )
 
     report = Report(
-        report_name="XML", diff_name="", files=[], total_num_lines=0,
-        total_num_violations=0, total_percent_covered=100.0,
+        report_name="XML",
+        diff_name="",
+        files=[],
+        total_num_lines=0,
+        total_num_violations=0,
+        total_percent_covered=100.0,
     )
 
     result = post_or_update_comment(
