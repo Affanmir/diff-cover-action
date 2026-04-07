@@ -1,0 +1,7 @@
+-r requirements.txt
+pytest>=8.0
+pytest-cov>=5.0
+ruff>=0.4
+mypy>=1.10
+responses>=0.25
+types-requests>=2.31

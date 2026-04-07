@@ -1,0 +1,28 @@
+## :{{ icon }}: Diff {{ "Coverage" if mode == "coverage" else "Quality" }}: {{ "%.1f" | format(report.total_percent_covered) }}%
+{% if fail_under > 0 %}
+{% if threshold_met %}
+> :heavy_check_mark: Meets threshold of {{ "%.0f" | format(fail_under) }}%
+{% else %}
+> :x: Below threshold of {{ "%.0f" | format(fail_under) }}%
+{% endif %}
+{% endif %}
+
+| Metric | Value |
+|--------|------:|
+| **{{ "Coverage" if mode == "coverage" else "Quality" }} on diff lines** | **{{ "%.1f" | format(report.total_percent_covered) }}%** |
+| Lines changed | {{ report.total_num_lines }} |
+| {{ "Lines uncovered" if mode == "coverage" else "Lines with violations" }} | {{ report.total_num_violations }} |
+| Files changed | {{ report.files | length }} |
+{% if report.files %}
+
+<details>
+<summary>File breakdown</summary>
+
+| File | {{ "Coverage" if mode == "coverage" else "Quality" }} |
+|------|:--------:|
+{% for f in report.files | sort(attribute='percent_covered') %}
+| `{{ f.path }}` | {{ "%.1f" | format(f.percent_covered) }}% |
+{% endfor %}
+
+</details>
+{% endif %}

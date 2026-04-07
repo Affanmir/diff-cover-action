@@ -1,0 +1,23 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### Added
+- Initial release of diff-cover-action
+- Coverage mode: run diff-cover on PR changes with full CLI parity
+- Quality mode: run diff-quality with all supported violation tools
+- Idempotent PR comments (create or update existing)
+- Inline annotations on uncovered/violating lines
+- Step summary in GitHub Actions UI
+- Structured outputs (coverage %, violations, threshold status)
+- Shields.io endpoint badge generation
+- Automatic shallow clone repair (progressive fetch strategy)
+- Full input/output specification in action.yml
+- Unit test suite (75 tests)
+- CI workflows: lint, test, Docker build, integration test
+- Release workflow with pre-built Docker images on GHCR

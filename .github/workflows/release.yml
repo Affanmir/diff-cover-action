@@ -1,0 +1,63 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  release:
+    name: Tag Docker Image & Update Major Version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract version info
+        id: version
+        run: |
+          VERSION="${{ github.event.release.tag_name }}"
+          MAJOR=$(echo "$VERSION" | grep -oP '^v\d+' || echo "v1")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "major=$MAJOR" >> "$GITHUB_OUTPUT"
+
+      - name: Tag GHCR image with release version
+        run: |
+          SHA_TAG="ghcr.io/${{ github.repository }}:sha-${{ github.sha }}"
+          VERSION_TAG="ghcr.io/${{ github.repository }}:${{ steps.version.outputs.version }}"
+          MAJOR_TAG="ghcr.io/${{ github.repository }}:${{ steps.version.outputs.major }}"
+
+          # Pull the SHA-tagged image
+          docker pull "$SHA_TAG"
+
+          # Tag and push version + major tags
+          docker tag "$SHA_TAG" "$VERSION_TAG"
+          docker tag "$SHA_TAG" "$MAJOR_TAG"
+          docker push "$VERSION_TAG"
+          docker push "$MAJOR_TAG"
+
+      - name: Rewrite Dockerfile to use pre-built image
+        run: |
+          echo "FROM ghcr.io/${{ github.repository }}:${{ steps.version.outputs.version }}" > Dockerfile
+
+      - name: Commit rewritten Dockerfile
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Dockerfile
+          git commit -m "chore: point Dockerfile to pre-built image ${{ steps.version.outputs.version }}" || true
+          git push origin HEAD:refs/tags/${{ steps.version.outputs.version }} --force
+
+      - name: Update major version tag
+        run: |
+          git tag -f ${{ steps.version.outputs.major }}
+          git push origin ${{ steps.version.outputs.major }} --force

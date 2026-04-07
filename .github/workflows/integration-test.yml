@@ -1,0 +1,58 @@
+name: Integration Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  test-coverage-mode:
+    name: Test Coverage Mode
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies and run tests with coverage
+        run: |
+          pip install -r requirements-dev.txt
+          pytest tests/ --cov=src --cov-report=xml
+
+      - name: Run diff-cover-action (coverage mode)
+        uses: ./
+        with:
+          mode: coverage
+          coverage-files: coverage.xml
+          compare-branch: origin/main
+          fail-under: '0'
+          post-comment: 'false'
+          create-annotations: 'false'
+          create-badge: 'true'
+
+  test-quality-mode:
+    name: Test Quality Mode
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run diff-cover-action (quality mode)
+        uses: ./
+        with:
+          mode: quality
+          violations: 'ruff.check'
+          compare-branch: origin/main
+          fail-under: '0'
+          post-comment: 'false'
+          create-annotations: 'false'

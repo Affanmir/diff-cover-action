@@ -1,0 +1,165 @@
+name: 'Diff Cover Action'
+description: 'Run diff-cover/diff-quality on your PR with native GitHub integration — PR comments, annotations, badges, and structured outputs. Zero vendor lock-in.'
+
+inputs:
+  # Mode
+  mode:
+    description: 'Run mode: "coverage" for diff-cover or "quality" for diff-quality'
+    required: false
+    default: 'coverage'
+
+  # Coverage mode inputs
+  coverage-files:
+    description: 'Space-separated coverage report paths (XML or lcov). Supports glob patterns. Required when mode=coverage.'
+    required: false
+    default: ''
+
+  # Quality mode inputs
+  violations:
+    description: 'Code quality tool name. Supported: pycodestyle, pyflakes, flake8, pylint, ruff.check, mypy, checkstyle, checkstylexml, clang, cppcheck, eslint, jshint, pydocstyle, shellcheck. Required when mode=quality.'
+    required: false
+    default: ''
+  quality-input-reports:
+    description: 'Space-separated pre-generated violation report files for diff-quality.'
+    required: false
+    default: ''
+  quality-options:
+    description: 'Pass-through arguments to the violations tool.'
+    required: false
+    default: ''
+
+  # Git diff options
+  compare-branch:
+    description: 'Branch to compare against for the diff.'
+    required: false
+    default: 'origin/main'
+  diff-range-notation:
+    description: 'Git diff range notation: "..." (default) or ".."'
+    required: false
+    default: '...'
+  diff-file:
+    description: 'Path to a pre-generated diff file. Overrides git branch comparison.'
+    required: false
+    default: ''
+  ignore-staged:
+    description: 'Exclude staged changes from the diff.'
+    required: false
+    default: 'false'
+  ignore-unstaged:
+    description: 'Exclude unstaged changes from the diff.'
+    required: false
+    default: 'false'
+  include-untracked:
+    description: 'Include untracked files in the diff.'
+    required: false
+    default: 'false'
+  ignore-whitespace:
+    description: 'Ignore whitespace changes in the diff.'
+    required: false
+    default: 'false'
+
+  # Filtering
+  exclude:
+    description: 'Newline-separated fnmatch patterns to exclude files.'
+    required: false
+    default: ''
+  include:
+    description: 'Newline-separated glob patterns to include files.'
+    required: false
+    default: ''
+  src-roots:
+    description: 'Space-separated source root directories (needed for JaCoCo reports).'
+    required: false
+    default: ''
+
+  # Report options
+  expand-coverage-report:
+    description: 'Add unreported lines with same hit count as previous line (XML only).'
+    required: false
+    default: 'false'
+  show-uncovered:
+    description: 'Display uncovered lines in console output.'
+    required: false
+    default: 'false'
+  quiet:
+    description: 'Suppress info/warning messages, show only errors.'
+    required: false
+    default: 'false'
+  config-file:
+    description: 'Path to a TOML configuration file for diff-cover.'
+    required: false
+    default: ''
+
+  # Threshold
+  fail-under:
+    description: 'Minimum acceptable coverage/quality percentage (0-100). Default 0 means no threshold.'
+    required: false
+    default: '0'
+  fail-on-threshold:
+    description: 'If true, fail the step when coverage is below fail-under. If false, only report.'
+    required: false
+    default: 'true'
+
+  # GitHub integration
+  github-token:
+    description: 'GitHub token for PR comments and check annotations.'
+    required: false
+    default: ${{ github.token }}
+  post-comment:
+    description: 'Post or update a PR comment with results.'
+    required: false
+    default: 'true'
+  comment-identifier:
+    description: 'Unique string to identify and update existing comments instead of creating new ones.'
+    required: false
+    default: 'diff-cover-action'
+  create-annotations:
+    description: 'Create inline annotations on uncovered or violating lines.'
+    required: false
+    default: 'true'
+  annotation-type:
+    description: 'Annotation severity: "warning", "error", or "notice".'
+    required: false
+    default: 'warning'
+  annotation-limit:
+    description: 'Maximum number of annotations to create. GitHub caps at 50 per job.'
+    required: false
+    default: '50'
+  create-badge:
+    description: 'Generate a shields.io endpoint JSON file for badge display.'
+    required: false
+    default: 'false'
+  badge-filename:
+    description: 'Output filename for the shields.io badge JSON.'
+    required: false
+    default: 'diff-cover-badge.json'
+
+outputs:
+  total-percent:
+    description: 'Overall coverage or quality percentage (integer).'
+  total-percent-float:
+    description: 'Overall percentage with two decimal places.'
+  total-lines:
+    description: 'Total number of lines in the diff.'
+  total-violations:
+    description: 'Number of uncovered or violating lines.'
+  files-changed:
+    description: 'Number of files with changes in the diff.'
+  threshold-met:
+    description: '"true" if coverage meets fail-under threshold, "false" otherwise.'
+  comment-id:
+    description: 'ID of the created or updated PR comment. Empty if no comment was posted.'
+  report-json:
+    description: 'Path to the generated JSON report file.'
+  badge-json:
+    description: 'Path to the generated badge JSON file. Empty if not generated.'
+  exit-code:
+    description: 'Raw exit code from the diff-cover CLI.'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+
+branding:
+  icon: 'check-circle'
+  color: 'green'

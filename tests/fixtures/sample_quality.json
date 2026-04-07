@@ -1,0 +1,15 @@
+{
+    "report_name": "pylint",
+    "diff_name": "origin/main...HEAD, staged and unstaged changes",
+    "src_stats": {
+        "src/module.py": {
+            "percent_covered": 75.0,
+            "violation_lines": [10, 11, 12, 30],
+            "violations": [[10, "C0301: Line too long"], [11, "C0301: Line too long"], [12, "W0612: Unused variable"], [30, "C0114: Missing docstring"]]
+        }
+    },
+    "total_num_lines": 20,
+    "total_num_violations": 4,
+    "total_percent_covered": 80.0,
+    "num_changed_lines": 20
+}
