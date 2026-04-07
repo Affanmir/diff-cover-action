@@ -30,11 +30,15 @@ jobs:
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "major=$MAJOR" >> "$GITHUB_OUTPUT"
 
+      - name: Lowercase repo name
+        id: repo
+        run: echo "name=${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
+
       - name: Tag GHCR image with release version
         run: |
-          SHA_TAG="ghcr.io/${{ github.repository }}:sha-${{ github.sha }}"
-          VERSION_TAG="ghcr.io/${{ github.repository }}:${{ steps.version.outputs.version }}"
-          MAJOR_TAG="ghcr.io/${{ github.repository }}:${{ steps.version.outputs.major }}"
+          SHA_TAG="ghcr.io/${{ steps.repo.outputs.name }}:sha-${{ github.sha }}"
+          VERSION_TAG="ghcr.io/${{ steps.repo.outputs.name }}:${{ steps.version.outputs.version }}"
+          MAJOR_TAG="ghcr.io/${{ steps.repo.outputs.name }}:${{ steps.version.outputs.major }}"
 
           # Pull the SHA-tagged image
           docker pull "$SHA_TAG"
@@ -47,7 +51,7 @@ jobs:
 
       - name: Rewrite Dockerfile to use pre-built image
         run: |
-          echo "FROM ghcr.io/${{ github.repository }}:${{ steps.version.outputs.version }}" > Dockerfile
+          echo "FROM ghcr.io/${{ steps.repo.outputs.name }}:${{ steps.version.outputs.version }}" > Dockerfile
 
       - name: Commit rewritten Dockerfile
         run: |
