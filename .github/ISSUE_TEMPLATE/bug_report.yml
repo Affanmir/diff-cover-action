@@ -1,0 +1,32 @@
+name: Bug Report
+description: Report a bug with diff-cover-action
+labels: ["bug"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened? What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Workflow snippet
+      description: Paste the relevant part of your workflow YAML.
+      render: yaml
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Action logs
+      description: Paste the relevant output from the Actions run.
+      render: text
+  - type: input
+    id: version
+    attributes:
+      label: Action version
+      placeholder: "v1.0.0"
+    validations:
+      required: true
