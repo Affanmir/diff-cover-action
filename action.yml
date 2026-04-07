@@ -1,5 +1,5 @@
 name: 'Diff Cover Action'
-description: 'Run diff-cover/diff-quality on your PR with native GitHub integration — PR comments, annotations, badges, and structured outputs. Zero vendor lock-in.'
+description: 'Diff coverage and quality reports on PRs with comments, annotations, and badges. No vendor lock-in.'
 
 inputs:
   # Mode
