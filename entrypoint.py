@@ -18,8 +18,11 @@ from src.runner import run_diff_cover
 
 
 def get_input(name: str, default: str = "") -> str:
-    env_name = f"INPUT_{name.upper().replace('-', '_')}"
-    return os.environ.get(env_name, default)
+    # GitHub Actions sets INPUT_COVERAGE-FILES (with hyphens), not INPUT_COVERAGE_FILES.
+    # Check the hyphenated form first (actual GitHub behavior), then underscore fallback.
+    env_hyphen = f"INPUT_{name.upper()}"
+    env_under = f"INPUT_{name.upper().replace('-', '_')}"
+    return os.environ.get(env_hyphen, os.environ.get(env_under, default))
 
 
 def get_bool_input(name: str, default: bool = False) -> bool:
