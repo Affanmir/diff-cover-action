@@ -1,26 +1,25 @@
-<h3>🛡️&ensp;Diff {{ "Coverage" if mode == "coverage" else "Quality" }}: {{ "%.1f" | format(report.total_percent_covered) }}%</h3>
-
-`{{ report.total_percent_covered | progress_bar }}`
+{% set pct = "%.1f" | format(report.total_percent_covered) %}
+{% set color = report.total_percent_covered | badge_color %}
+{% set label = "diff_coverage" if mode == "coverage" else "diff_quality" %}
+<img src="https://img.shields.io/badge/{{ label }}-{{ pct }}%25-{{ color }}?style=for-the-badge" alt="{{ pct }}%" />
 {% if fail_under > 0 %}
 {% if threshold_met %}
-> **✅&ensp;Passed** — meets threshold of {{ "%.0f" | format(fail_under) }}%
+&ensp;<img src="https://img.shields.io/badge/threshold-passed-success?style=flat-square" alt="passed" />
 {% else %}
-> **❌&ensp;Failed** — below threshold of {{ "%.0f" | format(fail_under) }}%
+&ensp;<img src="https://img.shields.io/badge/threshold-failed-critical?style=flat-square" alt="failed" />
 {% endif %}
 {% endif %}
 
-| | Metric | Value |
-|:---|:---|---:|
-| 📏 | Lines in diff | **{{ report.total_num_lines }}** |
-| {{ "🔍" if mode == "coverage" else "⚠️" }} | {{ "Lines uncovered" if mode == "coverage" else "Lines with violations" }} | **{{ report.total_num_violations }}** |
-| 📁 | Files changed | **{{ report.files | length }}** |
+`{{ report.total_percent_covered | progress_bar }}`&ensp;**{{ pct }}%** on changed lines
+
+**{{ report.total_num_lines }}** lines changed &emsp; **{{ report.total_num_violations }}** {{ "uncovered" if mode == "coverage" else "violations" }} &emsp; **{{ report.files | length }}** file{{ "s" if report.files | length != 1 else "" }}
 {% if report.files %}
 
 <details>
 <summary>&ensp;📂&ensp;<b>File details</b></summary>
 <br>
 
-| | File | {{ "Coverage" if mode == "coverage" else "Quality" }} |
+| &ensp; | File | {{ "Coverage" if mode == "coverage" else "Quality" }} |
 |:---:|:---|---:|
 {% for f in report.files | sort(attribute='percent_covered') %}
 | {{ f.percent_covered | status_icon }} | `{{ f.path }}` | {{ "%.1f" | format(f.percent_covered) }}% |

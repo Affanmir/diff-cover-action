@@ -116,6 +116,21 @@ def _status_icon(percent: float) -> str:
     return "\U0001f534"  # 🔴
 
 
+def _badge_color(percent: float) -> str:
+    """Map a coverage percentage to a shields.io color name."""
+    if percent >= 90:
+        return "brightgreen"
+    if percent >= 80:
+        return "green"
+    if percent >= 70:
+        return "yellowgreen"
+    if percent >= 60:
+        return "yellow"
+    if percent >= 40:
+        return "orange"
+    return "red"
+
+
 def _render_comment_body(
     *,
     report: Report,
@@ -133,6 +148,7 @@ def _render_comment_body(
     )
     env.filters["progress_bar"] = _progress_bar
     env.filters["status_icon"] = _status_icon
+    env.filters["badge_color"] = _badge_color
 
     template_name = f"comment_{mode}.md.j2"
     template = env.get_template(template_name)

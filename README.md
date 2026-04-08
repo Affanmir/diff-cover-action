@@ -60,25 +60,22 @@ Works with **any language** that can produce Cobertura XML, lcov, or JaCoCo cove
 
 ## What You Get
 
-### PR Comment -- Passing
+### PR Comment — Passing
 
-> <h3>🛡️&ensp;Diff Coverage Report</h3>
+> <table><tr><td>
+> <img src="https://img.shields.io/badge/diff_coverage-82.0%25-green?style=for-the-badge" alt="82.0%" />
+> &ensp;<img src="https://img.shields.io/badge/threshold-passed-success?style=flat-square" alt="passed" />
 >
-> **82.0%**&emsp;`████████████████░░░░`
+> `████████████████░░░░`&ensp;**82.0%** on changed lines
+> </td></tr></table>
 >
-> > **✅&ensp;Passed** — meets threshold of 80%
->
-> | | Metric | Value |
-> |:---|:---|---:|
-> | 📏 | Lines in diff | **50** |
-> | 🔍 | Lines uncovered | **9** |
-> | 📁 | Files changed | **3** |
+> **50** lines changed &emsp; **9** uncovered &emsp; **3** files
 >
 > <details>
 > <summary>&ensp;📂&ensp;<b>3 files changed</b></summary>
 > <br>
 >
-> | | File | Coverage | Uncovered Lines |
+> | &ensp; | File | Coverage | Uncovered Lines |
 > |:---:|:---|---:|:---|
 > | 🔴 | `src/bar.py` | 60.0% | 5, 6, 7, 8, 15, 22 |
 > | 🟡 | `src/foo.py` | 85.0% | 13, 27, 42 |
@@ -86,28 +83,26 @@ Works with **any language** that can produce Cobertura XML, lcov, or JaCoCo cove
 >
 > </details>
 >
-> ---
-> <sub>🛡️&ensp;<a href="https://github.com/marketplace/actions/diff-cover-pr-coverage-quality-reports">diff-cover-action</a>&ensp;·&ensp;Updates on re-run</sub>
+> <sub>🛡️&ensp;<a href="https://github.com/marketplace/actions/diff-cover-pr-coverage-quality-reports">diff-cover-action</a></sub>
 
-### PR Comment -- Failing
+### PR Comment — Failing
 
-> <h3>🛡️&ensp;Diff Coverage Report</h3>
+> <table><tr><td>
+> <img src="https://img.shields.io/badge/diff_coverage-45.0%25-orange?style=for-the-badge" alt="45.0%" />
+> &ensp;<img src="https://img.shields.io/badge/threshold-failed-critical?style=flat-square" alt="failed" />
 >
-> **45.0%**&emsp;`█████████░░░░░░░░░░░`
+> `█████████░░░░░░░░░░░`&ensp;**45.0%** on changed lines
+> </td></tr></table>
 >
-> > **❌&ensp;Failed** — below threshold of 80% by 35.0%
+> > **80%** required — missing **35.0%** more coverage
 >
-> | | Metric | Value |
-> |:---|:---|---:|
-> | 📏 | Lines in diff | **120** |
-> | 🔍 | Lines uncovered | **66** |
-> | 📁 | Files changed | **8** |
+> **120** lines changed &emsp; **66** uncovered &emsp; **8** files
 >
 > <details>
 > <summary>&ensp;📂&ensp;<b>8 files changed</b></summary>
 > <br>
 >
-> | | File | Coverage | Uncovered Lines |
+> | &ensp; | File | Coverage | Uncovered Lines |
 > |:---:|:---|---:|:---|
 > | 🔴 | `src/payments/stripe.py` | 0.0% | 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 (+12 more) |
 > | 🔴 | `src/auth/login.py` | 25.0% | 15, 16, 17, 30, 31, 32 |
@@ -120,35 +115,32 @@ Works with **any language** that can produce Cobertura XML, lcov, or JaCoCo cove
 >
 > </details>
 >
-> ---
-> <sub>🛡️&ensp;<a href="https://github.com/marketplace/actions/diff-cover-pr-coverage-quality-reports">diff-cover-action</a>&ensp;·&ensp;Updates on re-run</sub>
+> <sub>🛡️&ensp;<a href="https://github.com/marketplace/actions/diff-cover-pr-coverage-quality-reports">diff-cover-action</a></sub>
 
 ### Diff Quality PR Comment
 
-> <h3>🔬&ensp;Diff Quality Report</h3>
+> <table><tr><td>
+> <img src="https://img.shields.io/badge/diff_quality-75.0%25-yellowgreen?style=for-the-badge" alt="75.0%" />
+> &ensp;<img src="https://img.shields.io/badge/threshold-failed-critical?style=flat-square" alt="failed" />
 >
-> **75.0%**&emsp;`███████████████░░░░░`
+> `███████████████░░░░░`&ensp;**75.0%** on changed lines
+> </td></tr></table>
 >
-> > **❌&ensp;Failed** — below threshold of 90% by 15.0%
+> > **90%** required — missing **15.0%** more quality coverage
 >
-> | | Metric | Value |
-> |:---|:---|---:|
-> | 📏 | Lines in diff | **20** |
-> | ⚠️ | Lines with violations | **4** |
-> | 📁 | Files changed | **1** |
+> **20** lines changed &emsp; **4** violations &emsp; **1** file
 >
 > <details>
 > <summary>&ensp;📂&ensp;<b>1 file changed</b></summary>
 > <br>
 >
-> | | File | Quality | Violation Lines |
+> | &ensp; | File | Quality | Violation Lines |
 > |:---:|:---|---:|:---|
 > | 🟡 | `src/module.py` | 75.0% | 10, 11, 12, 30 |
 >
 > </details>
 >
-> ---
-> <sub>🛡️&ensp;<a href="https://github.com/marketplace/actions/diff-cover-pr-coverage-quality-reports">diff-cover-action</a>&ensp;·&ensp;Updates on re-run</sub>
+> <sub>🛡️&ensp;<a href="https://github.com/marketplace/actions/diff-cover-pr-coverage-quality-reports">diff-cover-action</a></sub>
 
 ### Inline Annotations (appear directly on the PR diff)
 
