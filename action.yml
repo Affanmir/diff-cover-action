@@ -1,5 +1,5 @@
-name: 'Diff Cover Action'
-description: 'Diff coverage and quality reports on PRs with comments, annotations, and badges. No vendor lock-in.'
+name: 'Diff Cover — PR Coverage & Quality Reports'
+description: 'Diff coverage and quality reports for pull requests. PR comments, inline annotations, badges. Supports 13+ linters. No vendor lock-in.'
 
 inputs:
   # Mode
@@ -218,5 +218,5 @@ runs:
         python "${{ github.action_path }}/entrypoint.py"
 
 branding:
-  icon: 'check-circle'
-  color: 'green'
+  icon: 'shield'
+  color: 'blue'

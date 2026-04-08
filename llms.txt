@@ -1,0 +1,43 @@
+# Diff Cover Action
+
+> A GitHub Action for reporting test coverage and code quality only on changed lines in pull requests. Posts PR comments, creates inline annotations, generates badges. Zero vendor lock-in — runs entirely in GitHub Actions.
+
+## What It Does
+
+Diff Cover Action wraps the diff-cover tool to analyze only the lines changed in a pull request, not the entire codebase. It operates in two modes:
+
+- **Coverage mode**: Reports which changed lines lack test coverage. Accepts Cobertura XML, lcov, JaCoCo XML, and Clover XML reports.
+- **Quality mode**: Reports lint/style violations only on changed lines. Supports 13+ tools: ruff, flake8, pylint, mypy, eslint, jshint, pycodestyle, pyflakes, checkstyle, cppcheck, shellcheck, pydocstyle, and clang.
+
+## Key Features
+
+- PR comments that update on re-run (idempotent)
+- Inline annotations on uncovered or violating lines
+- Step summaries in the GitHub Actions UI
+- Structured outputs (coverage %, violation count, threshold status) for downstream workflow steps
+- Shields.io badge generation
+- Automatic shallow clone handling
+- Fork PR safe (graceful degradation with read-only tokens)
+- Full CLI parity with diff-cover
+
+## Works With Any Language
+
+Any language that produces Cobertura XML, lcov, or JaCoCo coverage reports: Python, JavaScript, TypeScript, Java, Go, Rust, C#, Ruby, PHP, Kotlin, Swift, and more.
+
+## Usage
+
+```yaml
+- uses: Affanmir/diff-cover-action@v1
+  with:
+    coverage-files: coverage.xml
+    fail-under: '80'
+```
+
+## Links
+
+- [GitHub Repository](https://github.com/Affanmir/diff-cover-action)
+- [GitHub Marketplace](https://github.com/marketplace/actions/diff-cover-pr-coverage-quality-reports)
+- [README with full documentation](https://github.com/Affanmir/diff-cover-action/blob/main/README.md)
+- [action.yml (all inputs/outputs)](https://github.com/Affanmir/diff-cover-action/blob/main/action.yml)
+- [CHANGELOG](https://github.com/Affanmir/diff-cover-action/blob/main/CHANGELOG.md)
+- [Contributing guide](https://github.com/Affanmir/diff-cover-action/blob/main/CONTRIBUTING.md)

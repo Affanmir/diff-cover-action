@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diff Cover Action — PR Coverage & Quality Reports for GitHub Actions</title>
+  <meta name="description" content="A GitHub Action for reporting test coverage and code quality only on changed lines. PR comments, inline annotations, badges. Supports 13+ linters. Free, open source, zero vendor lock-in.">
+  <meta name="keywords" content="github action, diff coverage, code coverage, pull request, code quality, ci cd, testing, coverage report, pr comment, annotations, diff-cover, ruff, eslint, mypy, flake8, pylint, jacoco, lcov, cobertura">
+  <meta name="author" content="Affan Mir">
+  <link rel="canonical" href="https://affanmir.github.io/diff-cover-action/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Diff Cover Action — PR Coverage & Quality Reports">
+  <meta property="og:description" content="Report test coverage and code quality only on changed lines in your GitHub PRs. Free, open source, zero vendor lock-in.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://affanmir.github.io/diff-cover-action/">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Diff Cover Action — PR Coverage & Quality Reports">
+  <meta name="twitter:description" content="Report test coverage and code quality only on changed lines in your GitHub PRs. Free, open source, zero vendor lock-in.">
+
+  <!-- Schema.org structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Diff Cover Action",
+    "description": "A GitHub Action for reporting test coverage and code quality only on changed lines in pull requests. Posts PR comments, inline annotations, and generates badges. Supports 13+ linters including ruff, eslint, mypy, flake8, and pylint.",
+    "url": "https://github.com/Affanmir/diff-cover-action",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "GitHub Actions",
+    "license": "https://opensource.org/licenses/MIT",
+    "author": {
+      "@type": "Person",
+      "name": "Affan Mir",
+      "url": "https://github.com/Affanmir"
+    },
+    "codeRepository": "https://github.com/Affanmir/diff-cover-action",
+    "programmingLanguage": "Python",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --red: #f85149;
+      --orange: #d29922;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    header {
+      padding: 48px 0 32px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+    }
+
+    header h1 .icon {
+      font-size: 2rem;
+      margin-right: 8px;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 24px;
+    }
+
+    .badges {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 1rem;
+      margin: 24px 8px 0;
+      transition: opacity 0.2s;
+    }
+
+    .cta:hover { opacity: 0.9; }
+    .cta.secondary { background: var(--surface); border: 1px solid var(--border); }
+
+    section {
+      padding: 48px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    section:last-child { border-bottom: none; }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 24px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .feature {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+    }
+
+    .feature h3 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      color: var(--accent);
+    }
+
+    .feature p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    pre {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      overflow-x: auto;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    code { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; }
+
+    .tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .tool-tag {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 4px 12px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+
+    th, td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: var(--surface);
+      font-weight: 600;
+    }
+
+    footer {
+      padding: 32px 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.8rem; }
+      header p { font-size: 1rem; }
+      .features { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><span class="icon">&#128737;</span> Diff Cover Action</h1>
+      <p>Report test coverage and code quality <strong>only on changed lines</strong> in your GitHub pull requests. Zero vendor lock-in.</p>
+      <div class="badges">
+        <a href="https://github.com/marketplace/actions/diff-cover-pr-coverage-quality-reports"><img src="https://img.shields.io/badge/GitHub%20Marketplace-Diff%20Cover%20Action-blue?logo=github" alt="GitHub Marketplace"></a>
+        <a href="https://github.com/Affanmir/diff-cover-action"><img src="https://img.shields.io/github/stars/Affanmir/diff-cover-action?style=social" alt="GitHub Stars"></a>
+        <a href="https://github.com/Affanmir/diff-cover-action/releases"><img src="https://img.shields.io/github/v/release/Affanmir/diff-cover-action" alt="Latest Release"></a>
+        <a href="https://github.com/Affanmir/diff-cover-action/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Affanmir/diff-cover-action" alt="MIT License"></a>
+      </div>
+      <div>
+        <a class="cta" href="https://github.com/marketplace/actions/diff-cover-pr-coverage-quality-reports">View on Marketplace</a>
+        <a class="cta secondary" href="https://github.com/Affanmir/diff-cover-action">View on GitHub</a>
+      </div>
+    </header>
+
+    <section>
+      <h2>Features</h2>
+      <div class="features">
+        <div class="feature">
+          <h3>Diff Coverage</h3>
+          <p>Find lines in your PR that aren't covered by tests. Supports Cobertura XML, lcov, JaCoCo, and Clover reports.</p>
+        </div>
+        <div class="feature">
+          <h3>Diff Quality</h3>
+          <p>Find lint and style violations only in changed code. Supports 13+ tools across Python, JavaScript, C++, and shell.</p>
+        </div>
+        <div class="feature">
+          <h3>PR Comments</h3>
+          <p>Auto-posted, idempotent comments that update on re-run instead of spamming your pull request.</p>
+        </div>
+        <div class="feature">
+          <h3>Inline Annotations</h3>
+          <p>Uncovered lines and violations appear directly in the PR diff view as warnings, errors, or notices.</p>
+        </div>
+        <div class="feature">
+          <h3>Step Summaries</h3>
+          <p>Coverage and quality tables appear in the GitHub Actions run UI — visible without opening the PR.</p>
+        </div>
+        <div class="feature">
+          <h3>Zero Vendor Lock-in</h3>
+          <p>Everything runs locally in the GitHub Actions runner. No external services, no accounts, no data leaving your CI.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Quick Start</h2>
+      <pre><code><span style="color:#8b949e"># .github/workflows/coverage.yml</span>
+name: Coverage
+on: [pull_request]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run tests with coverage
+        run: |
+          pip install pytest pytest-cov
+          pytest --cov --cov-report=xml
+
+      - name: Diff Coverage
+        uses: Affanmir/diff-cover-action@v1
+        with:
+          coverage-files: coverage.xml
+          fail-under: '80'</code></pre>
+    </section>
+
+    <section>
+      <h2>Supported Tools</h2>
+      <p>Works with <strong>any language</strong> that produces standard coverage reports.</p>
+      <table>
+        <thead>
+          <tr><th>Category</th><th>Tools</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Coverage formats</td><td>Cobertura XML, lcov, JaCoCo XML, Clover XML</td></tr>
+          <tr><td>Python linters</td><td>ruff, flake8, pylint, pycodestyle, pyflakes, mypy, pydocstyle</td></tr>
+          <tr><td>JavaScript linters</td><td>eslint, jshint</td></tr>
+          <tr><td>Other</td><td>checkstyle, checkstylexml, clang, cppcheck, shellcheck</td></tr>
+        </tbody>
+      </table>
+      <div class="tools">
+        <span class="tool-tag">Python</span>
+        <span class="tool-tag">JavaScript</span>
+        <span class="tool-tag">TypeScript</span>
+        <span class="tool-tag">Java</span>
+        <span class="tool-tag">Go</span>
+        <span class="tool-tag">Rust</span>
+        <span class="tool-tag">C#</span>
+        <span class="tool-tag">Ruby</span>
+        <span class="tool-tag">PHP</span>
+        <span class="tool-tag">Kotlin</span>
+        <span class="tool-tag">Swift</span>
+        <span class="tool-tag">C++</span>
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        <a href="https://github.com/Affanmir/diff-cover-action">GitHub</a> &middot;
+        <a href="https://github.com/marketplace/actions/diff-cover-pr-coverage-quality-reports">Marketplace</a> &middot;
+        <a href="https://github.com/Affanmir/diff-cover-action/blob/main/CHANGELOG.md">Changelog</a> &middot;
+        <a href="https://github.com/Affanmir/diff-cover-action/blob/main/CONTRIBUTING.md">Contributing</a>
+      </p>
+      <p style="margin-top: 8px;">MIT License &middot; Made by <a href="https://github.com/Affanmir">Affan Mir</a></p>
+    </footer>
+  </div>
+</body>
+</html>

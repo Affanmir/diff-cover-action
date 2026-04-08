@@ -1,8 +1,37 @@
 # diff-cover-action
 
+[![GitHub Marketplace](https://img.shields.io/badge/Marketplace-Diff%20Cover%20Action-blue?logo=github)](https://github.com/marketplace/actions/diff-cover-pr-coverage-quality-reports)
+[![GitHub Stars](https://img.shields.io/github/stars/Affanmir/diff-cover-action?style=social)](https://github.com/Affanmir/diff-cover-action)
+[![GitHub Release](https://img.shields.io/github/v/release/Affanmir/diff-cover-action)](https://github.com/Affanmir/diff-cover-action/releases)
+[![License: MIT](https://img.shields.io/github/license/Affanmir/diff-cover-action)](LICENSE)
+[![CI](https://img.shields.io/github/actions/workflow/status/Affanmir/diff-cover-action/integration-test.yml?label=tests)](https://github.com/Affanmir/diff-cover-action/actions)
+
 A GitHub Action that wraps [diff-cover](https://github.com/Bachmann1234/diff_cover) to report test coverage and code quality **only on changed lines**. Native GitHub integration with PR comments, inline annotations, step summaries, and badge generation.
 
 **Zero vendor lock-in** -- everything runs locally in the GitHub Actions runner. No external services, no accounts, no data leaving your CI.
+
+---
+
+## Why This Action?
+
+| | diff-cover-action | Codecov | Coveralls | coverage-diff |
+|---|:---:|:---:|:---:|:---:|
+| **Free & self-hosted** | Yes | Freemium | Freemium | Yes |
+| **No external account** | Yes | No | No | Yes |
+| **Coverage + quality in one** | Yes | No | No | No |
+| **13+ lint tools** (ruff, eslint, mypy...) | Yes | No | No | No |
+| **PR comments** | Yes | Yes | Yes | Yes |
+| **Inline annotations** | Yes | Yes | Yes | No |
+| **Step summaries** | Yes | No | No | No |
+| **Badge generation** | Yes | Yes | Yes | Yes |
+| **JaCoCo / lcov / XML** | Yes | Yes | Yes | JSON only |
+| **Shallow clone handling** | Auto | Manual | Manual | N/A |
+| **Fork PR safe** | Yes | Yes | Yes | Limited |
+| **Data stays in your CI** | Yes | No | No | Yes |
+
+**In short**: This is the only action that does **both** diff coverage and diff quality analysis in a single step, with full GitHub integration, across any language and linter -- with zero vendor dependencies.
+
+---
 
 ## Features
 
@@ -15,6 +44,17 @@ A GitHub Action that wraps [diff-cover](https://github.com/Bachmann1234/diff_cov
 - **Badge generation** -- shields.io endpoint JSON for README badges
 - **Shallow clone handling** -- automatically fetches enough history for diff-cover
 - **Full CLI parity** -- every diff-cover/diff-quality flag is exposed as an input
+
+### Supported Languages & Tools
+
+| Category | Tools |
+|----------|-------|
+| **Coverage formats** | Cobertura XML, lcov, JaCoCo XML, Clover XML |
+| **Python linters** | ruff, flake8, pylint, pycodestyle, pyflakes, mypy, pydocstyle |
+| **JavaScript linters** | eslint, jshint |
+| **Other** | checkstyle, checkstylexml, clang, cppcheck, shellcheck |
+
+Works with **any language** that can produce Cobertura XML, lcov, or JaCoCo coverage reports (Python, JavaScript, TypeScript, Java, Go, Rust, C#, Ruby, PHP, and more).
 
 ---
 
