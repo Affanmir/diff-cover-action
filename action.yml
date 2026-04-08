@@ -137,28 +137,85 @@ inputs:
 outputs:
   total-percent:
     description: 'Overall coverage or quality percentage (integer).'
+    value: ${{ steps.diff-cover.outputs.total-percent }}
   total-percent-float:
     description: 'Overall percentage with two decimal places.'
+    value: ${{ steps.diff-cover.outputs.total-percent-float }}
   total-lines:
     description: 'Total number of lines in the diff.'
+    value: ${{ steps.diff-cover.outputs.total-lines }}
   total-violations:
     description: 'Number of uncovered or violating lines.'
+    value: ${{ steps.diff-cover.outputs.total-violations }}
   files-changed:
     description: 'Number of files with changes in the diff.'
+    value: ${{ steps.diff-cover.outputs.files-changed }}
   threshold-met:
     description: '"true" if coverage meets fail-under threshold, "false" otherwise.'
+    value: ${{ steps.diff-cover.outputs.threshold-met }}
   comment-id:
     description: 'ID of the created or updated PR comment. Empty if no comment was posted.'
+    value: ${{ steps.diff-cover.outputs.comment-id }}
   report-json:
     description: 'Path to the generated JSON report file.'
+    value: ${{ steps.diff-cover.outputs.report-json }}
   badge-json:
     description: 'Path to the generated badge JSON file. Empty if not generated.'
+    value: ${{ steps.diff-cover.outputs.badge-json }}
   exit-code:
     description: 'Raw exit code from the diff-cover CLI.'
+    value: ${{ steps.diff-cover.outputs.exit-code }}
 
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: 'composite'
+  steps:
+    - name: Install Python dependencies
+      shell: bash
+      run: pip install --quiet --no-cache-dir -r "${{ github.action_path }}/requirements.txt"
+
+    - name: Configure git safe directory
+      shell: bash
+      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+    - name: Run diff-cover
+      id: diff-cover
+      shell: bash
+      working-directory: ${{ github.workspace }}
+      env:
+        # Composite actions don't auto-set INPUT_* env vars — pass them explicitly
+        INPUT_MODE: ${{ inputs.mode }}
+        INPUT_COVERAGE-FILES: ${{ inputs.coverage-files }}
+        INPUT_VIOLATIONS: ${{ inputs.violations }}
+        INPUT_QUALITY-INPUT-REPORTS: ${{ inputs.quality-input-reports }}
+        INPUT_QUALITY-OPTIONS: ${{ inputs.quality-options }}
+        INPUT_COMPARE-BRANCH: ${{ inputs.compare-branch }}
+        INPUT_DIFF-RANGE-NOTATION: ${{ inputs.diff-range-notation }}
+        INPUT_DIFF-FILE: ${{ inputs.diff-file }}
+        INPUT_IGNORE-STAGED: ${{ inputs.ignore-staged }}
+        INPUT_IGNORE-UNSTAGED: ${{ inputs.ignore-unstaged }}
+        INPUT_INCLUDE-UNTRACKED: ${{ inputs.include-untracked }}
+        INPUT_IGNORE-WHITESPACE: ${{ inputs.ignore-whitespace }}
+        INPUT_EXCLUDE: ${{ inputs.exclude }}
+        INPUT_INCLUDE: ${{ inputs.include }}
+        INPUT_SRC-ROOTS: ${{ inputs.src-roots }}
+        INPUT_EXPAND-COVERAGE-REPORT: ${{ inputs.expand-coverage-report }}
+        INPUT_SHOW-UNCOVERED: ${{ inputs.show-uncovered }}
+        INPUT_QUIET: ${{ inputs.quiet }}
+        INPUT_CONFIG-FILE: ${{ inputs.config-file }}
+        INPUT_FAIL-UNDER: ${{ inputs.fail-under }}
+        INPUT_FAIL-ON-THRESHOLD: ${{ inputs.fail-on-threshold }}
+        INPUT_GITHUB-TOKEN: ${{ inputs.github-token || github.token }}
+        INPUT_POST-COMMENT: ${{ inputs.post-comment }}
+        INPUT_COMMENT-IDENTIFIER: ${{ inputs.comment-identifier }}
+        INPUT_CREATE-ANNOTATIONS: ${{ inputs.create-annotations }}
+        INPUT_ANNOTATION-TYPE: ${{ inputs.annotation-type }}
+        INPUT_ANNOTATION-LIMIT: ${{ inputs.annotation-limit }}
+        INPUT_CREATE-BADGE: ${{ inputs.create-badge }}
+        INPUT_BADGE-FILENAME: ${{ inputs.badge-filename }}
+        GITHUB_TOKEN: ${{ inputs.github-token || github.token }}
+      run: |
+        export PYTHONPATH="${{ github.action_path }}:${PYTHONPATH:-}"
+        python "${{ github.action_path }}/entrypoint.py"
 
 branding:
   icon: 'check-circle'
