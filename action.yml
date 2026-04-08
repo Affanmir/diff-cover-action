@@ -1,5 +1,5 @@
 name: 'Diff Cover — PR Coverage & Quality Reports'
-description: 'Diff coverage and quality reports for pull requests. PR comments, inline annotations, badges. Supports 13+ linters. No vendor lock-in.'
+description: 'Diff coverage and quality reports on pull requests. PR comments, annotations, badges. 13+ linters. No vendor lock-in.'
 
 inputs:
   # Mode
