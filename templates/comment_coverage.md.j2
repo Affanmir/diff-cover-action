@@ -1,28 +1,31 @@
 <!-- diff-cover-action:{{ identifier }} -->
-## {{ icon }} Diff Coverage: {{ "%.1f" | format(report.total_percent_covered) }}%
+
+<h3>🛡️&ensp;Diff Coverage Report</h3>
+
+**{{ "%.1f" | format(report.total_percent_covered) }}%**&emsp;`{{ report.total_percent_covered | progress_bar }}`
 {% if fail_under > 0 %}
 {% if threshold_met %}
-> :heavy_check_mark: Meets threshold of {{ "%.0f" | format(fail_under) }}%
+> **✅&ensp;Passed** — meets threshold of {{ "%.0f" | format(fail_under) }}%
 {% else %}
-> :x: Below threshold of {{ "%.0f" | format(fail_under) }}% — needs {{ "%.1f" | format(fail_under - report.total_percent_covered) }}% more coverage
+> **❌&ensp;Failed** — below threshold of {{ "%.0f" | format(fail_under) }}% by {{ "%.1f" | format(fail_under - report.total_percent_covered) }}%
 {% endif %}
 {% endif %}
 
-| Metric | Value |
-|--------|------:|
-| **Coverage on diff lines** | **{{ "%.1f" | format(report.total_percent_covered) }}%** |
-| Lines changed | {{ report.total_num_lines }} |
-| Lines uncovered | {{ report.total_num_violations }} |
-| Files changed | {{ report.files | length }} |
+| | Metric | Value |
+|:---|:---|---:|
+| 📏 | Lines in diff | **{{ report.total_num_lines }}** |
+| 🔍 | Lines uncovered | **{{ report.total_num_violations }}** |
+| 📁 | Files changed | **{{ report.files | length }}** |
 {% if report.files %}
 
 <details>
-<summary>File breakdown ({{ report.files | length }} file{{ "s" if report.files | length != 1 else "" }})</summary>
+<summary>&ensp;📂&ensp;<b>{{ report.files | length }} file{{ "s" if report.files | length != 1 else "" }} changed</b></summary>
+<br>
 
-| File | Coverage | Uncovered Lines |
-|------|:--------:|:---------------:|
+| | File | Coverage | Uncovered Lines |
+|:---:|:---|---:|:---|
 {% for f in report.files | sort(attribute='percent_covered') %}
-| `{{ f.path }}` | {{ "%.1f" | format(f.percent_covered) }}% | {{ f.violation_lines[:10] | join(', ') }}{% if f.violation_lines | length > 10 %} (+{{ f.violation_lines | length - 10 }} more){% endif %} |
+| {{ f.percent_covered | status_icon }} | `{{ f.path }}` | {{ "%.1f" | format(f.percent_covered) }}% | {{ f.violation_lines[:10] | join(', ') if f.violation_lines else '—' }}{% if f.violation_lines | length > 10 %} (+{{ f.violation_lines | length - 10 }} more){% endif %} |
 {% endfor %}
 
 </details>
@@ -30,7 +33,8 @@
 {% if md_report_content %}
 
 <details>
-<summary>Full diff-cover report</summary>
+<summary>&ensp;📋&ensp;<b>Full diff-cover report</b></summary>
+<br>
 
 {{ md_report_content }}
 
@@ -38,4 +42,5 @@
 {% endif %}
 
 ---
-<sub>Posted by <a href="https://github.com/marketplace/actions/diff-cover-action">diff-cover-action</a></sub>
+
+<sub>🛡️&ensp;<a href="https://github.com/marketplace/actions/diff-cover-pr-coverage-quality-reports">diff-cover-action</a>&ensp;·&ensp;Updates on re-run</sub>
