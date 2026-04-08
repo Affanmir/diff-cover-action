@@ -100,6 +100,37 @@ def _find_existing_comment(
     return None
 
 
+def _progress_bar(percent: float, width: int = 20) -> str:
+    """Generate a Unicode progress bar. Example: ████████████████░░░░ for 80%."""
+    filled = round(percent / 100 * width)
+    filled = max(0, min(width, filled))
+    return "\u2588" * filled + "\u2591" * (width - filled)
+
+
+def _status_icon(percent: float) -> str:
+    """Return a colored circle emoji based on coverage percentage."""
+    if percent >= 90:
+        return "\U0001f7e2"  # 🟢
+    if percent >= 70:
+        return "\U0001f7e1"  # 🟡
+    return "\U0001f534"  # 🔴
+
+
+def _badge_color(percent: float) -> str:
+    """Map a coverage percentage to a shields.io color name."""
+    if percent >= 90:
+        return "brightgreen"
+    if percent >= 80:
+        return "green"
+    if percent >= 70:
+        return "yellowgreen"
+    if percent >= 60:
+        return "yellow"
+    if percent >= 40:
+        return "orange"
+    return "red"
+
+
 def _render_comment_body(
     *,
     report: Report,
@@ -115,16 +146,12 @@ def _render_comment_body(
         autoescape=False,
         keep_trailing_newline=True,
     )
+    env.filters["progress_bar"] = _progress_bar
+    env.filters["status_icon"] = _status_icon
+    env.filters["badge_color"] = _badge_color
 
     template_name = f"comment_{mode}.md.j2"
     template = env.get_template(template_name)
-
-    if report.total_percent_covered >= 90:
-        icon = ":white_check_mark:"
-    elif report.total_percent_covered >= 70:
-        icon = ":large_orange_diamond:"
-    else:
-        icon = ":red_circle:"
 
     return template.render(
         report=report,
@@ -132,7 +159,6 @@ def _render_comment_body(
         fail_under=fail_under,
         threshold_met=threshold_met,
         identifier=identifier,
-        icon=icon,
         md_report_content=md_report_content,
     )
 

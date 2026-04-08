@@ -95,7 +95,7 @@ def test_render_comment_body() -> None:
     )
     assert "<!-- diff-cover-action:test-id -->" in body
     assert "90.0%" in body
-    assert "Meets threshold" in body
+    assert "threshold-passed-success" in body
     assert "src/foo.py" in body
 
 
@@ -116,7 +116,7 @@ def test_render_comment_body_below_threshold() -> None:
         identifier="test",
         md_report_content="",
     )
-    assert "Below threshold" in body
+    assert "threshold-failed-critical" in body
 
 
 @responses.activate

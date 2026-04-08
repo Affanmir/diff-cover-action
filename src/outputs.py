@@ -48,6 +48,37 @@ def write_outputs(
     _set_output("exit-code", str(exit_code))
 
 
+def _progress_bar(percent: float, width: int = 20) -> str:
+    """Generate a Unicode progress bar."""
+    filled = round(percent / 100 * width)
+    filled = max(0, min(width, filled))
+    return "\u2588" * filled + "\u2591" * (width - filled)
+
+
+def _status_icon(percent: float) -> str:
+    """Return a colored circle emoji based on coverage percentage."""
+    if percent >= 90:
+        return "\U0001f7e2"  # 🟢
+    if percent >= 70:
+        return "\U0001f7e1"  # 🟡
+    return "\U0001f534"  # 🔴
+
+
+def _badge_color(percent: float) -> str:
+    """Map a coverage percentage to a shields.io color name."""
+    if percent >= 90:
+        return "brightgreen"
+    if percent >= 80:
+        return "green"
+    if percent >= 70:
+        return "yellowgreen"
+    if percent >= 60:
+        return "yellow"
+    if percent >= 40:
+        return "orange"
+    return "red"
+
+
 def write_step_summary(
     *,
     report: Report,
@@ -61,20 +92,15 @@ def write_step_summary(
         autoescape=False,
         keep_trailing_newline=True,
     )
+    env.filters["progress_bar"] = _progress_bar
+    env.filters["status_icon"] = _status_icon
+    env.filters["badge_color"] = _badge_color
     template = env.get_template("step_summary.md.j2")
-
-    if report.total_percent_covered >= 90:
-        icon = "white_check_mark"
-    elif report.total_percent_covered >= 70:
-        icon = "large_orange_diamond"
-    else:
-        icon = "red_circle"
 
     content = template.render(
         report=report,
         mode=mode,
         fail_under=fail_under,
         threshold_met=threshold_met,
-        icon=icon,
     )
     _append_to_github_file("GITHUB_STEP_SUMMARY", content)

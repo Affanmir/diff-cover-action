@@ -60,89 +60,87 @@ Works with **any language** that can produce Cobertura XML, lcov, or JaCoCo cove
 
 ## What You Get
 
-### PR Comment (auto-posted, updates on re-run)
+### PR Comment — Passing
 
-> ## :white_check_mark: Diff Coverage: 82.0%
+> <table><tr><td>
+> <img src="https://img.shields.io/badge/diff_coverage-82.0%25-green?style=for-the-badge" alt="82.0%" />
+> &ensp;<img src="https://img.shields.io/badge/threshold-passed-success?style=flat-square" alt="passed" />
 >
-> > :heavy_check_mark: Meets threshold of 80%
+> `████████████████░░░░`&ensp;**82.0%** on changed lines
+> </td></tr></table>
 >
-> | Metric | Value |
-> |--------|------:|
-> | **Coverage on diff lines** | **82.0%** |
-> | Lines changed | 50 |
-> | Lines uncovered | 9 |
-> | Files changed | 3 |
+> **50** lines changed &emsp; **9** uncovered &emsp; **3** files
 >
 > <details>
-> <summary>File breakdown (3 files)</summary>
+> <summary>&ensp;📂&ensp;<b>3 files changed</b></summary>
+> <br>
 >
-> | File | Coverage | Uncovered Lines |
-> |------|:--------:|:---------------:|
-> | `src/bar.py` | 60.0% | 5, 6, 7, 8, 15, 22 |
-> | `src/foo.py` | 85.0% | 13, 27, 42 |
-> | `src/baz.py` | 100.0% | |
+> | &ensp; | File | Coverage | Uncovered Lines |
+> |:---:|:---|---:|:---|
+> | 🔴 | `src/bar.py` | 60.0% | 5, 6, 7, 8, 15, 22 |
+> | 🟡 | `src/foo.py` | 85.0% | 13, 27, 42 |
+> | 🟢 | `src/baz.py` | 100.0% | — |
 >
 > </details>
 >
-> ---
-> <sub>Posted by <a href="https://github.com/Affanmir/diff-cover-action">diff-cover-action</a></sub>
+> <sub>🛡️&ensp;<a href="https://github.com/marketplace/actions/diff-cover-pr-coverage-quality-reports">diff-cover-action</a></sub>
 
-### PR Comment -- Below Threshold
+### PR Comment — Failing
 
-> ## :red_circle: Diff Coverage: 45.0%
+> <table><tr><td>
+> <img src="https://img.shields.io/badge/diff_coverage-45.0%25-orange?style=for-the-badge" alt="45.0%" />
+> &ensp;<img src="https://img.shields.io/badge/threshold-failed-critical?style=flat-square" alt="failed" />
 >
-> > :x: Below threshold of 80% -- needs 35.0% more coverage
+> `█████████░░░░░░░░░░░`&ensp;**45.0%** on changed lines
+> </td></tr></table>
 >
-> | Metric | Value |
-> |--------|------:|
-> | **Coverage on diff lines** | **45.0%** |
-> | Lines changed | 120 |
-> | Lines uncovered | 66 |
-> | Files changed | 8 |
+> > **80%** required — missing **35.0%** more coverage
+>
+> **120** lines changed &emsp; **66** uncovered &emsp; **8** files
 >
 > <details>
-> <summary>File breakdown (8 files)</summary>
+> <summary>&ensp;📂&ensp;<b>8 files changed</b></summary>
+> <br>
 >
-> | File | Coverage | Uncovered Lines |
-> |------|:--------:|:---------------:|
-> | `src/payments/stripe.py` | 0.0% | 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 (+12 more) |
-> | `src/auth/login.py` | 25.0% | 15, 16, 17, 30, 31, 32 |
-> | `src/api/routes.py` | 40.0% | 22, 23, 55, 56, 57 |
-> | `src/models/user.py` | 50.0% | 8, 9, 44 |
-> | `src/utils/cache.py` | 60.0% | 18, 19 |
-> | `src/services/email.py` | 70.0% | 33 |
-> | `src/config.py` | 80.0% | 5 |
-> | `src/middleware.py` | 100.0% | |
+> | &ensp; | File | Coverage | Uncovered Lines |
+> |:---:|:---|---:|:---|
+> | 🔴 | `src/payments/stripe.py` | 0.0% | 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 (+12 more) |
+> | 🔴 | `src/auth/login.py` | 25.0% | 15, 16, 17, 30, 31, 32 |
+> | 🔴 | `src/api/routes.py` | 40.0% | 22, 23, 55, 56, 57 |
+> | 🔴 | `src/models/user.py` | 50.0% | 8, 9, 44 |
+> | 🔴 | `src/utils/cache.py` | 60.0% | 18, 19 |
+> | 🟡 | `src/services/email.py` | 70.0% | 33 |
+> | 🟡 | `src/config.py` | 80.0% | 5 |
+> | 🟢 | `src/middleware.py` | 100.0% | — |
 >
 > </details>
 >
-> ---
-> <sub>Posted by <a href="https://github.com/Affanmir/diff-cover-action">diff-cover-action</a></sub>
+> <sub>🛡️&ensp;<a href="https://github.com/marketplace/actions/diff-cover-pr-coverage-quality-reports">diff-cover-action</a></sub>
 
 ### Diff Quality PR Comment
 
-> ## :large_orange_diamond: Diff Quality: 75.0%
+> <table><tr><td>
+> <img src="https://img.shields.io/badge/diff_quality-75.0%25-yellowgreen?style=for-the-badge" alt="75.0%" />
+> &ensp;<img src="https://img.shields.io/badge/threshold-failed-critical?style=flat-square" alt="failed" />
 >
-> > :x: Below threshold of 90%
+> `███████████████░░░░░`&ensp;**75.0%** on changed lines
+> </td></tr></table>
 >
-> | Metric | Value |
-> |--------|------:|
-> | **Quality on diff lines** | **75.0%** |
-> | Lines changed | 20 |
-> | Lines with violations | 4 |
-> | Files changed | 1 |
+> > **90%** required — missing **15.0%** more quality coverage
+>
+> **20** lines changed &emsp; **4** violations &emsp; **1** file
 >
 > <details>
-> <summary>File breakdown (1 file)</summary>
+> <summary>&ensp;📂&ensp;<b>1 file changed</b></summary>
+> <br>
 >
-> | File | Quality | Violation Lines |
-> |------|:-------:|:---------------:|
-> | `src/module.py` | 75.0% | 10, 11, 12, 30 |
+> | &ensp; | File | Quality | Violation Lines |
+> |:---:|:---|---:|:---|
+> | 🟡 | `src/module.py` | 75.0% | 10, 11, 12, 30 |
 >
 > </details>
 >
-> ---
-> <sub>Posted by <a href="https://github.com/Affanmir/diff-cover-action">diff-cover-action</a></sub>
+> <sub>🛡️&ensp;<a href="https://github.com/marketplace/actions/diff-cover-pr-coverage-quality-reports">diff-cover-action</a></sub>
 
 ### Inline Annotations (appear directly on the PR diff)
 

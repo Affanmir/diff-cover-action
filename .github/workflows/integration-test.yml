@@ -8,7 +8,8 @@ on:
 
 permissions:
   contents: read
-  pull-requests: read
+  pull-requests: write
+  checks: write
 
 jobs:
   test-coverage-mode:
@@ -35,8 +36,8 @@ jobs:
           coverage-files: coverage.xml
           compare-branch: origin/main
           fail-under: '0'
-          post-comment: 'false'
-          create-annotations: 'false'
+          post-comment: 'true'
+          create-annotations: 'true'
           create-badge: 'true'
 
   test-quality-mode:
