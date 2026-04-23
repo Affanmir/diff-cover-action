@@ -123,6 +123,7 @@ def main() -> int:
             fail_under=fail_under,
             threshold_met=threshold_met,
             identifier=get_input("comment-identifier", "diff-cover-action"),
+            title=get_input("title"),
             md_report_path=md_report_path,
         )
         print("::endgroup::")

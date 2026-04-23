@@ -1,4 +1,8 @@
 <!-- diff-cover-action:{{ identifier }} -->
+{% if title %}
+## {{ title }}
+
+{% endif %}
 {% set pct = "%.1f" | format(report.total_percent_covered) %}
 {% set color = report.total_percent_covered | badge_color %}
 <table><tr><td>

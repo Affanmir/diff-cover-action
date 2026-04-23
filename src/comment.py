@@ -138,6 +138,7 @@ def _render_comment_body(
     fail_under: float,
     threshold_met: bool,
     identifier: str,
+    title: str,
     md_report_content: str,
 ) -> str:
     """Render the PR comment body from a Jinja2 template."""
@@ -159,6 +160,7 @@ def _render_comment_body(
         fail_under=fail_under,
         threshold_met=threshold_met,
         identifier=identifier,
+        title=title,
         md_report_content=md_report_content,
     )
 
@@ -176,6 +178,7 @@ def post_or_update_comment(
     fail_under: float,
     threshold_met: bool,
     identifier: str,
+    title: str = "",
     md_report_path: str,
 ) -> str:
     """Post a new PR comment or update an existing one. Returns the comment ID as a string."""
@@ -202,6 +205,7 @@ def post_or_update_comment(
         fail_under=fail_under,
         threshold_met=threshold_met,
         identifier=identifier,
+        title=title,
         md_report_content=md_report_content,
     )
 

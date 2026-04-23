@@ -100,6 +100,12 @@ inputs:
     required: false
     default: 'true'
 
+  # Comment customization
+  title:
+    description: 'Optional heading displayed at the top of the PR comment (e.g. app name in a monorepo).'
+    required: false
+    default: ''
+
   # GitHub integration
   github-token:
     description: 'GitHub token for PR comments and check annotations. Defaults to the built-in GITHUB_TOKEN.'
@@ -204,6 +210,7 @@ runs:
         INPUT_CONFIG-FILE: ${{ inputs.config-file }}
         INPUT_FAIL-UNDER: ${{ inputs.fail-under }}
         INPUT_FAIL-ON-THRESHOLD: ${{ inputs.fail-on-threshold }}
+        INPUT_TITLE: ${{ inputs.title }}
         INPUT_GITHUB-TOKEN: ${{ inputs.github-token || github.token }}
         INPUT_POST-COMMENT: ${{ inputs.post-comment }}
         INPUT_COMMENT-IDENTIFIER: ${{ inputs.comment-identifier }}
