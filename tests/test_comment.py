@@ -91,12 +91,34 @@ def test_render_comment_body() -> None:
         fail_under=80.0,
         threshold_met=True,
         identifier="test-id",
+        title="",
         md_report_content="",
     )
     assert "<!-- diff-cover-action:test-id -->" in body
     assert "90.0%" in body
     assert "threshold-passed-success" in body
     assert "src/foo.py" in body
+
+
+def test_render_comment_body_with_title() -> None:
+    report = Report(
+        report_name="XML",
+        diff_name="",
+        files=[],
+        total_num_lines=10,
+        total_num_violations=0,
+        total_percent_covered=100.0,
+    )
+    body = _render_comment_body(
+        report=report,
+        mode="coverage",
+        fail_under=80.0,
+        threshold_met=True,
+        identifier="test-id",
+        title="partners-app",
+        md_report_content="",
+    )
+    assert "## partners-app" in body
 
 
 def test_render_comment_body_below_threshold() -> None:
@@ -114,6 +136,7 @@ def test_render_comment_body_below_threshold() -> None:
         fail_under=80.0,
         threshold_met=False,
         identifier="test",
+        title="",
         md_report_content="",
     )
     assert "threshold-failed-critical" in body
