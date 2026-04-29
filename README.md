@@ -181,7 +181,7 @@ jobs:
           pytest --cov --cov-report=xml
 
       - name: Diff Coverage
-        uses: Affanmir/diff-cover-action@v1
+        uses: Affanmir/diff-cover-action@v2
         with:
           coverage-files: coverage.xml
           fail-under: '80'
@@ -191,7 +191,7 @@ jobs:
 
 ```yaml
       - name: Diff Quality
-        uses: Affanmir/diff-cover-action@v1
+        uses: Affanmir/diff-cover-action@v2
         with:
           mode: quality
           violations: ruff.check
@@ -202,13 +202,13 @@ jobs:
 
 ```yaml
       - name: Diff Coverage
-        uses: Affanmir/diff-cover-action@v1
+        uses: Affanmir/diff-cover-action@v2
         with:
           coverage-files: coverage.xml
           fail-under: '80'
 
       - name: Diff Quality
-        uses: Affanmir/diff-cover-action@v1
+        uses: Affanmir/diff-cover-action@v2
         with:
           mode: quality
           violations: flake8
@@ -274,6 +274,12 @@ jobs:
 | `fail-under` | Minimum acceptable percentage (0-100) | `0` |
 | `fail-on-threshold` | Fail the step when below threshold | `true` |
 
+### Comment Customization
+
+| Input | Description | Default |
+|-------|-------------|---------|
+| `title` | Optional H2 heading shown at the top of the PR comment (e.g. app name in a monorepo). Empty = no heading. | |
+
 ### GitHub Integration
 
 | Input | Description | Default |
@@ -307,7 +313,7 @@ jobs:
 ```yaml
       - name: Diff Coverage
         id: coverage
-        uses: Affanmir/diff-cover-action@v1
+        uses: Affanmir/diff-cover-action@v2
         with:
           coverage-files: coverage.xml
 
@@ -357,7 +363,7 @@ Enable badge generation and use with shields.io:
 
 ```yaml
       - name: Diff Coverage
-        uses: Affanmir/diff-cover-action@v1
+        uses: Affanmir/diff-cover-action@v2
         with:
           coverage-files: coverage.xml
           create-badge: 'true'
@@ -376,7 +382,7 @@ Then use with a [shields.io endpoint badge](https://shields.io/badges/endpoint-b
 ### Multiple Coverage Files
 
 ```yaml
-      - uses: Affanmir/diff-cover-action@v1
+      - uses: Affanmir/diff-cover-action@v2
         with:
           coverage-files: 'unit-coverage.xml integration-coverage.xml'
 ```
@@ -384,7 +390,7 @@ Then use with a [shields.io endpoint badge](https://shields.io/badges/endpoint-b
 ### Glob Patterns
 
 ```yaml
-      - uses: Affanmir/diff-cover-action@v1
+      - uses: Affanmir/diff-cover-action@v2
         with:
           coverage-files: '**/coverage*.xml'
 ```
@@ -392,7 +398,7 @@ Then use with a [shields.io endpoint badge](https://shields.io/badges/endpoint-b
 ### Exclude Patterns
 
 ```yaml
-      - uses: Affanmir/diff-cover-action@v1
+      - uses: Affanmir/diff-cover-action@v2
         with:
           coverage-files: coverage.xml
           exclude: |
@@ -404,7 +410,7 @@ Then use with a [shields.io endpoint badge](https://shields.io/badges/endpoint-b
 ### JaCoCo (Java)
 
 ```yaml
-      - uses: Affanmir/diff-cover-action@v1
+      - uses: Affanmir/diff-cover-action@v2
         with:
           coverage-files: target/site/jacoco/jacoco.xml
           src-roots: 'src/main/java'
@@ -413,7 +419,7 @@ Then use with a [shields.io endpoint badge](https://shields.io/badges/endpoint-b
 ### TOML Configuration
 
 ```yaml
-      - uses: Affanmir/diff-cover-action@v1
+      - uses: Affanmir/diff-cover-action@v2
         with:
           coverage-files: coverage.xml
           config-file: pyproject.toml
@@ -428,6 +434,30 @@ fail_under = 80
 exclude = ["tests/*", "setup.py"]
 ```
 
+### Monorepo Matrix (titled comments per app)
+
+When several coverage jobs run in a matrix, give each comment its own heading and a unique `comment-identifier` so they don't overwrite each other:
+
+```yaml
+jobs:
+  coverage:
+    strategy:
+      matrix:
+        app: [online-store, cms, partners-app]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pnpm test:unit:${{ matrix.app }}
+      - uses: Affanmir/diff-cover-action@v2
+        with:
+          title: ${{ matrix.app }}
+          coverage-files: apps/${{ matrix.app }}/coverage/lcov.info
+          comment-identifier: diff-cover-${{ matrix.app }}
+          fail-under: '80'
+```
+
+Each PR gets one comment per app, headed with the app name.
+
 ### Conditional Failure
 
 Report coverage without failing the step:
@@ -435,7 +465,7 @@ Report coverage without failing the step:
 ```yaml
       - name: Coverage Report
         id: coverage
-        uses: Affanmir/diff-cover-action@v1
+        uses: Affanmir/diff-cover-action@v2
         with:
           coverage-files: coverage.xml
           fail-under: '80'

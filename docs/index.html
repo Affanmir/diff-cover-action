@@ -289,7 +289,7 @@ jobs:
           pytest --cov --cov-report=xml
 
       - name: Diff Coverage
-        uses: Affanmir/diff-cover-action@v1
+        uses: Affanmir/diff-cover-action@v2
         with:
           coverage-files: coverage.xml
           fail-under: '80'</code></pre>

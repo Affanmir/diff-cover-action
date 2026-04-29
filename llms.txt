@@ -27,10 +27,20 @@ Any language that produces Cobertura XML, lcov, or JaCoCo coverage reports: Pyth
 ## Usage
 
 ```yaml
-- uses: Affanmir/diff-cover-action@v1
+- uses: Affanmir/diff-cover-action@v2
   with:
     coverage-files: coverage.xml
     fail-under: '80'
+```
+
+In monorepos with a matrix of coverage jobs, set `title` so each PR comment identifies its app, and a unique `comment-identifier` so comments don't overwrite each other:
+
+```yaml
+- uses: Affanmir/diff-cover-action@v2
+  with:
+    title: partners-app
+    coverage-files: apps/partners-app/coverage/lcov.info
+    comment-identifier: diff-cover-partners-app
 ```
 
 ## Links
