@@ -12,24 +12,58 @@ A GitHub Action that wraps [diff-cover](https://github.com/Bachmann1234/diff_cov
 
 ---
 
-## Why This Action?
+## Quickstart in 60 seconds
 
-| | diff-cover-action | Codecov | Coveralls | coverage-diff |
-|---|:---:|:---:|:---:|:---:|
-| **Free & self-hosted** | Yes | Freemium | Freemium | Yes |
-| **No external account** | Yes | No | No | Yes |
-| **Coverage + quality in one** | Yes | No | No | No |
-| **13+ lint tools** (ruff, eslint, mypy...) | Yes | No | No | No |
-| **PR comments** | Yes | Yes | Yes | Yes |
-| **Inline annotations** | Yes | Yes | Yes | No |
-| **Step summaries** | Yes | No | No | No |
-| **Badge generation** | Yes | Yes | Yes | Yes |
-| **JaCoCo / lcov / XML** | Yes | Yes | Yes | JSON only |
-| **Shallow clone handling** | Auto | Manual | Manual | N/A |
-| **Fork PR safe** | Yes | Yes | Yes | Limited |
-| **Data stays in your CI** | Yes | No | No | Yes |
+Drop this file into `.github/workflows/diff-coverage.yml`, push, and open a PR. A coverage comment will appear automatically — no signup, no token, no external service.
 
-**In short**: This is the only action that does **both** diff coverage and diff quality analysis in a single step, with full GitHub integration, across any language and linter -- with zero vendor dependencies.
+```yaml
+name: Diff Coverage
+on: [pull_request]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install pytest pytest-cov && pytest --cov --cov-report=xml
+      - uses: Affanmir/diff-cover-action@v2
+        with:
+          coverage-files: coverage.xml
+```
+
+That's the whole setup. It works on **any language** that produces Cobertura XML, lcov, or JaCoCo — replace the `pytest` line with your own test command (Jest, `go test -coverprofile`, Maven, etc.). For thresholds, monorepos, fork PRs, or quality (lint) mode, see [Common Patterns](#common-patterns) below.
+
+---
+
+## How does this compare?
+
+Honest comparison — `diff-cover-action` is not always the right pick. Here's where each tool wins:
+
+| | diff-cover-action | Codecov | Coveralls | 5monkeys/cobertura-action |
+|---|---|---|---|---|
+| **Setup** | 1 workflow file | App install + token | App install + token | 1 workflow file |
+| **Where it runs** | Your CI runner | SaaS (data uploaded) | SaaS (data uploaded) | Your CI runner |
+| **Pricing** | Free (OSS, MIT) | Free for OSS, paid private | Free for OSS, paid private | Free (OSS, MIT) |
+| **Coverage scope** | Changed lines only | Full repo + diff | Full repo + diff | Changed lines only |
+| **Lint / quality reporting** | 13+ tools (ruff, eslint, mypy, …) | — | — | — |
+| **PR comment** | Idempotent updates | Idempotent updates | Idempotent updates | Idempotent updates |
+| **Inline diff annotations** | Yes | Yes | Yes | — |
+| **Actions step summary** | Yes | — | — | — |
+| **Historical trend graphs** | — | Yes | Yes | — |
+| **Org-wide dashboards** | — | Yes | Yes | — |
+| **Coverage formats** | Cobertura XML, lcov, JaCoCo, Clover | Cobertura, lcov, JaCoCo, +many | Cobertura, lcov, +many | Cobertura XML only |
+| **Fork PR comments** | Skips gracefully (read-only token) | Works via app token | Works via app token | Skips gracefully |
+| **Data leaves your CI?** | No | Yes | Yes | No |
+
+**Pick `diff-cover-action` if** you want diff coverage *and* diff quality (lint) in one step, you don't want vendor signups, and you don't need cross-PR trend history.
+
+**Pick Codecov / Coveralls if** you need historical trend graphs, organization dashboards, full-repo coverage tracking on non-PR commits, or coverage history retained outside CI logs.
+
+**Pick `5monkeys/cobertura-action` if** all you need is a Cobertura PR comment and you don't care about lint/quality, lcov, or JaCoCo.
 
 ---
 
@@ -157,7 +191,7 @@ The same coverage table also appears in the **Actions > Job Summary** tab so you
 
 ---
 
-## Quick Start
+## Common Patterns
 
 ### Coverage Mode
 
@@ -487,7 +521,11 @@ Report coverage without failing the step:
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and guidelines.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and guidelines. Participation in this project is governed by the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+## Security
+
+Found a vulnerability? Please report it privately — see [SECURITY.md](SECURITY.md) for the reporting policy and supported versions.
 
 ## License
 

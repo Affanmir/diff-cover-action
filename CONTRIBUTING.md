@@ -1,10 +1,12 @@
 # Contributing to diff-cover-action
 
+Thanks for your interest in contributing! By participating, you agree to abide by the project's [Code of Conduct](CODE_OF_CONDUCT.md). For security issues, please follow the private reporting process in [SECURITY.md](SECURITY.md) instead of opening a public issue.
+
 ## Development Setup
 
 ```bash
 # Clone the repo
-git clone https://github.com/your-org/diff-cover-action.git
+git clone https://github.com/Affanmir/diff-cover-action.git
 cd diff-cover-action
 
 # Install dev dependencies
