@@ -20,7 +20,7 @@ The major-version tag (`@v2`) is moved on each compatible release, so pinning to
 Use one of the following private channels:
 
 1. **GitHub Security Advisory (preferred)** — open a private report at <https://github.com/Affanmir/diff-cover-action/security/advisories/new>. This keeps the discussion private and lets us coordinate a fix and release together.
-2. **Email** — `affan.amir@laam.pk` with the subject prefix `[diff-cover-action security]`.
+2. **Email** — `affan.amir.mir@gmail.com` with the subject prefix `[diff-cover-action security]`.
 
 Please include:
 

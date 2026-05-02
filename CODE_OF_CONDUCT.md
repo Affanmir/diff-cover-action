@@ -12,7 +12,7 @@ We adopt that document by reference rather than re-inlining it so that any futur
 
 If you experience or witness conduct that violates the Contributor Covenant in any project space, please report it privately:
 
-- **Email**: `affan.amir@laam.pk` with subject prefix `[diff-cover-action conduct]`
+- **Email**: `affan.amir.mir@gmail.com` with subject prefix `[diff-cover-action conduct]`
 - **GitHub**: open a private security advisory at <https://github.com/Affanmir/diff-cover-action/security/advisories/new> and tag it `[conduct]`
 
 Reports are reviewed confidentially. Please include:
