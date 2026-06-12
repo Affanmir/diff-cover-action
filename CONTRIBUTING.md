@@ -25,6 +25,9 @@ ruff format src/ tests/ entrypoint.py
 mypy src/ entrypoint.py --ignore-missing-imports
 ```
 
+You can also use the *dev container* if you don't have a local Python environment set up.
+
+
 ## Project Structure
 
 ```
