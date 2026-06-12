@@ -100,6 +100,7 @@ def test_render_comment_body_coverage() -> None:
     assert "src/foo.py" in body
     assert "|:---:|:---|---:|:---|\n| 🟡 | `src/foo.py` | 85.0% | 13, 27 |" in body
 
+
 def test_render_comment_body_quality() -> None:
     report = Report(
         report_name="XML",
