@@ -74,7 +74,7 @@ def test_is_fork_pr_missing_file() -> None:
     assert _is_fork_pr("/nonexistent/event.json", "owner/repo") is False
 
 
-def test_render_comment_body() -> None:
+def test_render_comment_body_coverage() -> None:
     report = Report(
         report_name="XML",
         diff_name="origin/main...HEAD",
@@ -96,6 +96,32 @@ def test_render_comment_body() -> None:
     )
     assert "<!-- diff-cover-action:test-id -->" in body
     assert "90.0%" in body
+    assert "threshold-passed-success" in body
+    assert "src/foo.py" in body
+    assert "|:---:|:---|---:|:---|\n| 🟡 | `src/foo.py` | 85.0% | 13, 27 |" in body
+
+def test_render_comment_body_quality() -> None:
+    report = Report(
+        report_name="XML",
+        diff_name="origin/main...HEAD",
+        files=[
+            FileReport(path="src/foo.py", percent_covered=85.0, violation_lines=[13, 27]),
+        ],
+        total_num_lines=10,
+        total_num_violations=2,
+        total_percent_covered=95.0,
+    )
+    body = _render_comment_body(
+        report=report,
+        mode="quality",
+        fail_under=80.0,
+        threshold_met=True,
+        identifier="test-id",
+        title="",
+        md_report_content="",
+    )
+    assert "<!-- diff-cover-action:test-id -->" in body
+    assert "95.0%" in body
     assert "threshold-passed-success" in body
     assert "src/foo.py" in body
     assert "|:---:|:---|---:|:---|\n| 🟡 | `src/foo.py` | 85.0% | 13, 27 |" in body
