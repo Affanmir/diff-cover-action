@@ -98,6 +98,8 @@ def test_render_comment_body() -> None:
     assert "90.0%" in body
     assert "threshold-passed-success" in body
     assert "src/foo.py" in body
+    assert "|:---:|:---|---:|:---|\n| 🟡 | `src/foo.py` | 85.0% | 13, 27 |" in body
+
 
 
 def test_render_comment_body_with_title() -> None:

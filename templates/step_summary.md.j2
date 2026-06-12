@@ -20,8 +20,8 @@
 <br>
 
 | &ensp; | File | {{ "Coverage" if mode == "coverage" else "Quality" }} |
-|:---:|:---|---:|
-{% for f in report.files | sort(attribute='percent_covered') %}
+|:---:|:---|---:| {%
+for f in report.files | sort(attribute='percent_covered') %}
 | {{ f.percent_covered | status_icon }} | `{{ f.path }}` | {{ "%.1f" | format(f.percent_covered) }}% |
 {% endfor %}
 
