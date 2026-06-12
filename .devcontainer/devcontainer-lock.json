@@ -1,0 +1,19 @@
+{
+  "features": {
+    "ghcr.io/devcontainers-extra/features/mypy:2": {
+      "version": "2.0.18",
+      "resolved": "ghcr.io/devcontainers-extra/features/mypy@sha256:534691ad5dc1dbdf2d2fe9cd541117758b8e381d56f1f3ad73bea12b93ba70c2",
+      "integrity": "sha256:534691ad5dc1dbdf2d2fe9cd541117758b8e381d56f1f3ad73bea12b93ba70c2"
+    },
+    "ghcr.io/hspaans/devcontainer-features/pytest:2": {
+      "version": "2.0.0",
+      "resolved": "ghcr.io/hspaans/devcontainer-features/pytest@sha256:6ce02b88a2d4e894c9f4d3588df31723ed8978ed1da4c9561aec768d1aaf295b",
+      "integrity": "sha256:6ce02b88a2d4e894c9f4d3588df31723ed8978ed1da4c9561aec768d1aaf295b"
+    },
+    "ghcr.io/jsburckhardt/devcontainer-features/ruff:1": {
+      "version": "1.0.0",
+      "resolved": "ghcr.io/jsburckhardt/devcontainer-features/ruff@sha256:ecde5b4c67565ea73aca624e13931c3104e01ca079b37913ba7317e0c7508d2f",
+      "integrity": "sha256:ecde5b4c67565ea73aca624e13931c3104e01ca079b37913ba7317e0c7508d2f"
+    }
+  }
+}
