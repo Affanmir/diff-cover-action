@@ -30,7 +30,7 @@
 <br>
 
 | &ensp; | File | Coverage | Uncovered Lines |
-|:---:|:---|---:|:---| {%
+|:---:|:---|---:|:---|{%
 for f in report.files | sort(attribute='percent_covered') %}
 | {{ f.percent_covered | status_icon }} | `{{ f.path }}` | {{ "%.1f" | format(f.percent_covered) }}% | {{ f.violation_lines[:10] | join(', ') if f.violation_lines else '—' }}{% if f.violation_lines | length > 10 %} (+{{ f.violation_lines | length - 10 }} more){% endif %} |
 {% endfor %}

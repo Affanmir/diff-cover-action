@@ -101,7 +101,6 @@ def test_render_comment_body() -> None:
     assert "|:---:|:---|---:|:---|\n| 🟡 | `src/foo.py` | 85.0% | 13, 27 |" in body
 
 
-
 def test_render_comment_body_with_title() -> None:
     report = Report(
         report_name="XML",
