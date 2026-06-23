@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.1] - 2026-06-23
+
+### Fixed
+- Per-file tables in PR comments and the job step summary rendered with a blank line after the header-separator row, which broke the Markdown table layout on GitHub. The coverage and quality tables now render correctly. (#13, fixes #11)
+
+### Added
+- Dev Container configuration in `.devcontainer/` for a one-command, reproducible Python development environment. (#12)
+
+### Documentation
+- Quickstart section, an honest comparison against alternative tools, and expanded community-standards files (Code of Conduct, Security Policy). (#8)
+
 ## [2.1.0] - 2026-04-29
 
 ### Added

@@ -1,6 +1,6 @@
 [project]
 name = "diff-cover-action"
-version = "1.0.0"
+version = "2.1.1"
 description = "GitHub Action wrapping diff-cover with native PR comments, annotations, and badges"
 requires-python = ">=3.12"
 
