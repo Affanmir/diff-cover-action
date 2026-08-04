@@ -81,3 +81,44 @@ class TestWriteStepSummary:
             assert "src/foo.py" in content
         finally:
             os.environ.pop("GITHUB_STEP_SUMMARY", None)
+
+    def test_no_heading_by_default(self, tmp_path: Path, sample_report: Report) -> None:
+        summary_file = tmp_path / "github_step_summary"
+        summary_file.write_text("")
+        os.environ["GITHUB_STEP_SUMMARY"] = str(summary_file)
+
+        try:
+            write_step_summary(
+                report=sample_report,
+                mode="coverage",
+                fail_under=80.0,
+                threshold_met=True,
+            )
+
+            assert "## " not in summary_file.read_text()
+        finally:
+            os.environ.pop("GITHUB_STEP_SUMMARY", None)
+
+    def test_summary_title_renders_heading(self, tmp_path: Path, sample_report: Report) -> None:
+        summary_file = tmp_path / "github_step_summary"
+        # Pre-existing content, as when an earlier step already wrote a summary.
+        summary_file.write_text("# Test Results\n\nall green\n")
+        os.environ["GITHUB_STEP_SUMMARY"] = str(summary_file)
+
+        try:
+            write_step_summary(
+                report=sample_report,
+                mode="coverage",
+                fail_under=80.0,
+                threshold_met=True,
+                summary_title="Diff Coverage Report",
+            )
+
+            content = summary_file.read_text()
+            # Heading must start its own line so it can't be absorbed into
+            # whatever a previous step appended.
+            assert "\n## Diff Coverage Report\n" in content
+            assert content.startswith("# Test Results\n")
+            assert "82.0%" in content
+        finally:
+            os.environ.pop("GITHUB_STEP_SUMMARY", None)

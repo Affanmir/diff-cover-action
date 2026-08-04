@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `summary-title` input — optional H2 heading at the top of the job step summary, mirroring what `title` does for the PR comment. Without it, a job whose earlier steps already appended to `GITHUB_STEP_SUMMARY` runs the coverage block straight on with no separator. When unset (default), no heading is rendered and behavior is unchanged. (closes #9)
+
 ## [2.1.1] - 2026-06-23
 
 ### Fixed
