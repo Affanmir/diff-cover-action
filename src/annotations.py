@@ -54,7 +54,12 @@ def create_annotations(
     if annotation_type not in ("warning", "error", "notice"):
         annotation_type = "warning"
 
-    label = "not covered by tests" if mode == "coverage" else "has quality violations"
+    # GitHub's log view renders only the message body, dropping the file= property,
+    # so the path goes in the message to keep each annotation self-describing.
+    if mode == "coverage":
+        singular, plural = "is not covered by tests", "are not covered by tests"
+    else:
+        singular, plural = "has quality violations", "have quality violations"
 
     # Sort files by coverage ascending (worst first)
     sorted_files = sorted(report.files, key=lambda f: f.percent_covered)
@@ -74,10 +79,10 @@ def create_annotations(
                 break
 
             if start == end:
-                msg = f"Line {start} is {label}"
+                msg = f"{file_report.path} line {start} {singular}"
                 line_spec = f"line={start}"
             else:
-                msg = f"Lines {start}-{end} are {label}"
+                msg = f"{file_report.path} lines {start}-{end} {plural}"
                 line_spec = f"line={start},endLine={end}"
 
             title = "Uncovered Line" if mode == "coverage" else "Quality Violation"

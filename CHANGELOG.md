@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Annotation messages now name the file they refer to (`src/Foo.cs line 14 is not covered by tests`). GitHub's Actions log renders only a workflow command's message body and drops the `file=` property, so a run with violations in several files produced a list of interchangeable `Line 14 is not covered by tests` entries with no way to tell them apart. (fixes #10)
+- Annotation messages in `mode: quality` no longer read `Line 3 is has quality violations`; singular and plural forms are now grammatical in both modes.
+
 ## [2.1.1] - 2026-06-23
 
 ### Fixed

@@ -96,6 +96,54 @@ class TestCreateAnnotations:
         # bad.py should come first (lower coverage)
         assert "bad.py" in lines[0]
 
+    def test_message_body_includes_filename(self, capsys: object) -> None:
+        # The log view of a workflow command shows only the message body, not the
+        # file= property, so the path has to be in the message itself.
+        report = Report(
+            report_name="XML",
+            diff_name="",
+            files=[
+                FileReport(path="src/Foo.cs", percent_covered=50.0, violation_lines=[14, 21, 22]),
+            ],
+            total_num_lines=10,
+            total_num_violations=3,
+            total_percent_covered=50.0,
+        )
+        create_annotations(report=report, mode="coverage")
+        captured = capsys.readouterr()  # type: ignore[attr-defined]
+        bodies = [
+            line.split("::", 2)[2]
+            for line in captured.out.splitlines()
+            if line.startswith("::warning")
+        ]
+        assert bodies == [
+            "src/Foo.cs line 14 is not covered by tests",
+            "src/Foo.cs lines 21-22 are not covered by tests",
+        ]
+
+    def test_quality_message_body_is_grammatical(self, capsys: object) -> None:
+        report = Report(
+            report_name="ruff.check",
+            diff_name="",
+            files=[
+                FileReport(path="src/foo.py", percent_covered=50.0, violation_lines=[3, 7, 8]),
+            ],
+            total_num_lines=10,
+            total_num_violations=3,
+            total_percent_covered=50.0,
+        )
+        create_annotations(report=report, mode="quality")
+        captured = capsys.readouterr()  # type: ignore[attr-defined]
+        bodies = [
+            line.split("::", 2)[2]
+            for line in captured.out.splitlines()
+            if line.startswith("::warning")
+        ]
+        assert bodies == [
+            "src/foo.py line 3 has quality violations",
+            "src/foo.py lines 7-8 have quality violations",
+        ]
+
     def test_groups_consecutive_lines(self, capsys: object) -> None:
         report = Report(
             report_name="XML",
