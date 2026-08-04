@@ -179,11 +179,13 @@ Works with **any language** that can produce Cobertura XML, lcov, or JaCoCo cove
 ### Inline Annotations (appear directly on the PR diff)
 
 ```
-warning: src/bar.py#5-8 — Lines 5-8 are not covered by tests
-warning: src/bar.py#15 — Line 15 is not covered by tests
-warning: src/bar.py#22 — Line 22 is not covered by tests
-warning: src/foo.py#13 — Line 13 is not covered by tests
+Warning: src/bar.py lines 5-8 are not covered by tests
+Warning: src/bar.py line 15 is not covered by tests
+Warning: src/bar.py line 22 is not covered by tests
+Warning: src/foo.py line 13 is not covered by tests
 ```
+
+Each annotation is also attached to its file and line, so it renders inline on the PR diff. The path is repeated in the message text because the Actions log view shows only the message.
 
 ### Step Summary (in Actions run UI)
 
