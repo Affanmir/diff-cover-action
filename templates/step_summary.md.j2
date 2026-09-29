@@ -1,3 +1,7 @@
+{% if summary_title %}
+## {{ summary_title }}
+
+{% endif %}
 {% set pct = "%.1f" | format(report.total_percent_covered) %}
 {% set color = report.total_percent_covered | badge_color %}
 {% set label = "diff_coverage" if mode == "coverage" else "diff_quality" %}

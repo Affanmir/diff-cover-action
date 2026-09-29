@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `summary-title` input — optional H2 heading at the top of the job step summary, mirroring what `title` does for the PR comment. Without it, a job whose earlier steps already appended to `GITHUB_STEP_SUMMARY` runs the coverage block straight on with no separator. When unset (default), no heading is rendered and behavior is unchanged. (#16, closes #9)
+
 ### Changed
 - Reports are requested with a single `--format` flag instead of the deprecated `--json-report`/`--markdown-report`/`--html-report`, so diff-cover no longer prints `UserWarning`s. The minimum diff-cover is now 9.3.0, the first release with `--format`. An older copy already on the runner is upgraded automatically. (#17)
 

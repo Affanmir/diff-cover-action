@@ -85,6 +85,7 @@ def write_step_summary(
     mode: str,
     fail_under: float,
     threshold_met: bool,
+    summary_title: str = "",
 ) -> None:
     """Write a markdown step summary to GITHUB_STEP_SUMMARY."""
     env = Environment(
@@ -102,5 +103,6 @@ def write_step_summary(
         mode=mode,
         fail_under=fail_under,
         threshold_met=threshold_met,
+        summary_title=summary_title,
     )
     _append_to_github_file("GITHUB_STEP_SUMMARY", content)

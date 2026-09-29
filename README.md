@@ -189,7 +189,7 @@ Each annotation is also attached to its file and line, so it renders inline on t
 
 ### Step Summary (in Actions run UI)
 
-The same coverage table also appears in the **Actions > Job Summary** tab so you can see results without opening the PR.
+The same coverage table also appears in the **Actions > Job Summary** tab so you can see results without opening the PR. Set `summary-title` to head that block when earlier steps in the job have already written to the summary.
 
 ---
 
@@ -310,11 +310,12 @@ jobs:
 | `fail-under` | Minimum acceptable percentage (0-100) | `0` |
 | `fail-on-threshold` | Fail the step when below threshold | `true` |
 
-### Comment Customization
+### Comment & Summary Customization
 
 | Input | Description | Default |
 |-------|-------------|---------|
 | `title` | Optional H2 heading shown at the top of the PR comment (e.g. app name in a monorepo). Empty = no heading. | |
+| `summary-title` | Optional H2 heading shown at the top of the job step summary. Useful when earlier steps already wrote to the summary and you need a separator. Empty = no heading. | |
 
 ### GitHub Integration
 

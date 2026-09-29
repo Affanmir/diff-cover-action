@@ -163,6 +163,7 @@ def main() -> int:
         mode=mode,
         fail_under=fail_under,
         threshold_met=threshold_met,
+        summary_title=get_input("summary-title"),
     )
 
     # Step 9: Determine exit code
