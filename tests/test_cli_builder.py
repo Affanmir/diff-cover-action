@@ -6,6 +6,8 @@ import pytest
 
 from src.cli_builder import HTML_REPORT_PATH, JSON_REPORT_PATH, MD_REPORT_PATH, build_command
 
+ALL_REPORTS = f"json:{JSON_REPORT_PATH},markdown:{MD_REPORT_PATH},html:{HTML_REPORT_PATH}"
+
 
 def _default_kwargs(**overrides: object) -> dict[str, object]:
     """Return default build_command kwargs with overrides."""
@@ -40,10 +42,6 @@ class TestCoverageMode:
         cmd = build_command(**_default_kwargs())
         assert cmd[0] == "diff-cover"
         assert "coverage.xml" in cmd
-        assert "--json-report" in cmd
-        assert JSON_REPORT_PATH in cmd
-        assert "--markdown-report" in cmd
-        assert MD_REPORT_PATH in cmd
 
     def test_multiple_coverage_files(self, tmp_path: object) -> None:
         cmd = build_command(**_default_kwargs(coverage_files="cov1.xml cov2.xml"))
@@ -130,17 +128,18 @@ class TestCoverageMode:
     def test_config_file_placed_before_other_flags(self) -> None:
         cmd = build_command(**_default_kwargs(config_file="pyproject.toml"))
         config_idx = cmd.index("--config-file")
-        json_idx = cmd.index("--json-report")
-        assert config_idx < json_idx
+        format_idx = cmd.index("--format")
+        assert config_idx < format_idx
 
     def test_no_coverage_files_raises(self) -> None:
         with pytest.raises(ValueError, match="No coverage files"):
             build_command(**_default_kwargs(coverage_files=""))
 
-    def test_html_report_always_generated(self) -> None:
+    def test_all_reports_in_one_format_flag(self) -> None:
+        # diff-cover keeps only the last --format, so a second one would drop reports.
         cmd = build_command(**_default_kwargs())
-        assert "--html-report" in cmd
-        assert HTML_REPORT_PATH in cmd
+        assert cmd.count("--format") == 1
+        assert cmd[cmd.index("--format") + 1] == ALL_REPORTS
 
 
 class TestQualityMode:
@@ -148,6 +147,11 @@ class TestQualityMode:
         cmd = build_command(**_default_kwargs(mode="quality", violations="flake8"))
         assert cmd[0] == "diff-quality"
         assert "--violations=flake8" in cmd
+
+    def test_quality_reports_in_one_format_flag(self) -> None:
+        cmd = build_command(**_default_kwargs(mode="quality", violations="ruff.check"))
+        assert cmd.count("--format") == 1
+        assert cmd[cmd.index("--format") + 1] == ALL_REPORTS
 
     def test_quality_with_input_reports(self) -> None:
         cmd = build_command(

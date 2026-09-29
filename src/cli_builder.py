@@ -119,10 +119,9 @@ def _add_shared_flags(
     if config_file:
         cmd.extend(["--config-file", config_file])
 
-    # Always generate JSON and markdown reports
-    cmd.extend(["--json-report", JSON_REPORT_PATH])
-    cmd.extend(["--markdown-report", MD_REPORT_PATH])
-    cmd.extend(["--html-report", HTML_REPORT_PATH])
+    # One comma-joined --format: diff-cover keeps only the last --format it is given
+    reports = f"json:{JSON_REPORT_PATH},markdown:{MD_REPORT_PATH},html:{HTML_REPORT_PATH}"
+    cmd.extend(["--format", reports])
 
     if compare_branch:
         cmd.extend(["--compare-branch", compare_branch])
