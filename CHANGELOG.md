@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Reports are requested with a single `--format` flag instead of the deprecated `--json-report`/`--markdown-report`/`--html-report`, so diff-cover no longer prints `UserWarning`s. The minimum diff-cover is now 9.3.0, the first release with `--format`. An older copy already on the runner is upgraded automatically. (#17)
+
 ## [2.1.1] - 2026-06-23
 
 ### Fixed
