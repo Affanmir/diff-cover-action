@@ -8,7 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- `summary-title` input — optional H2 heading at the top of the job step summary, mirroring what `title` does for the PR comment. Without it, a job whose earlier steps already appended to `GITHUB_STEP_SUMMARY` runs the coverage block straight on with no separator. When unset (default), no heading is rendered and behavior is unchanged. (closes #9)
+- `summary-title` input — optional H2 heading at the top of the job step summary, mirroring what `title` does for the PR comment. Without it, a job whose earlier steps already appended to `GITHUB_STEP_SUMMARY` runs the coverage block straight on with no separator. When unset (default), no heading is rendered and behavior is unchanged. (#16, closes #9)
+
+### Changed
+- Reports are requested with a single `--format` flag instead of the deprecated `--json-report`/`--markdown-report`/`--html-report`, so diff-cover no longer prints `UserWarning`s. The minimum diff-cover is now 9.3.0, the first release with `--format`. An older copy already on the runner is upgraded automatically. (#17)
+
+### Fixed
+- Annotation messages now name the file they refer to (`src/Foo.cs line 14 is not covered by tests`). GitHub's Actions log renders only a workflow command's message body and drops the `file=` property, so a run with violations in several files produced a list of interchangeable `Line 14 is not covered by tests` entries with no way to tell them apart. (#15, fixes #10)
+- Annotation messages in `mode: quality` no longer read `Line 3 is has quality violations`; singular and plural forms are now grammatical in both modes. (#15)
 
 ## [2.1.1] - 2026-06-23
 
