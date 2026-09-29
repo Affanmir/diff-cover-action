@@ -40,10 +40,8 @@ class TestCoverageMode:
         cmd = build_command(**_default_kwargs())
         assert cmd[0] == "diff-cover"
         assert "coverage.xml" in cmd
-        assert "--json-report" in cmd
-        assert JSON_REPORT_PATH in cmd
-        assert "--markdown-report" in cmd
-        assert MD_REPORT_PATH in cmd
+        assert f"--format=json:{JSON_REPORT_PATH}" in cmd
+        assert f"--format=markdown:{MD_REPORT_PATH}" in cmd
 
     def test_multiple_coverage_files(self, tmp_path: object) -> None:
         cmd = build_command(**_default_kwargs(coverage_files="cov1.xml cov2.xml"))
@@ -130,7 +128,7 @@ class TestCoverageMode:
     def test_config_file_placed_before_other_flags(self) -> None:
         cmd = build_command(**_default_kwargs(config_file="pyproject.toml"))
         config_idx = cmd.index("--config-file")
-        json_idx = cmd.index("--json-report")
+        json_idx = cmd.index(f"--format=json:{JSON_REPORT_PATH}")
         assert config_idx < json_idx
 
     def test_no_coverage_files_raises(self) -> None:
@@ -139,8 +137,7 @@ class TestCoverageMode:
 
     def test_html_report_always_generated(self) -> None:
         cmd = build_command(**_default_kwargs())
-        assert "--html-report" in cmd
-        assert HTML_REPORT_PATH in cmd
+        assert f"--format=html:{HTML_REPORT_PATH}" in cmd
 
 
 class TestQualityMode:
