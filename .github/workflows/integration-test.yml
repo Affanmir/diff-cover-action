@@ -40,6 +40,13 @@ jobs:
           create-annotations: 'true'
           create-badge: 'true'
 
+      # A missing report silently becomes an empty 100% result, so check the files directly
+      - name: Assert all reports were written
+        run: |
+          for f in /tmp/dc-report.json /tmp/dc-report.md /tmp/dc-report.html; do
+            test -s "$f" || { echo "::error::$f was not written"; exit 1; }
+          done
+
   test-quality-mode:
     name: Test Quality Mode
     runs-on: ubuntu-latest
@@ -47,6 +54,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      # diff-quality needs the linter itself; without it no JSON report is written
+      - name: Install ruff
+        run: pip install ruff
 
       - name: Run diff-cover-action (quality mode)
         uses: ./
@@ -57,3 +68,9 @@ jobs:
           fail-under: '0'
           post-comment: 'false'
           create-annotations: 'false'
+
+      - name: Assert all reports were written
+        run: |
+          for f in /tmp/dc-report.json /tmp/dc-report.md /tmp/dc-report.html; do
+            test -s "$f" || { echo "::error::$f was not written"; exit 1; }
+          done
